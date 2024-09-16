@@ -1,9 +1,15 @@
-import React from 'react'
+import { Box } from "@mui/material";
+import { useTheme } from "@mui/material/styles";
 
 const Homepage = () => {
-  return (
-    <div>Homepage</div>
-  )
-}
+  const theme = useTheme(); // Hook to access the theme
 
-export default Homepage
+  return (
+    <Box>
+      <h1>Homepage</h1>
+      {/* Your homepage content */}
+    </Box>
+  );
+};
+
+export default Homepage;
