@@ -7,7 +7,8 @@ const Homepage = () => {
   return (
     <Box>
       <h1>Homepage</h1>
-      {/* Your homepage content */}
+      
+      
     </Box>
   );
 };
