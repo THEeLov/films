@@ -12,7 +12,9 @@ import { registerSchema } from "../validationSchemas/authForms";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import z from "zod";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { createUserWithEmailAndPassword } from "firebase/auth";
+import { auth } from "../config/firebase";
 
 type RegisterSchema = z.infer<typeof registerSchema>;
 
@@ -20,15 +22,22 @@ const Register = () => {
   const {
     register,
     handleSubmit,
+    setError,
     formState: { errors },
   } = useForm<RegisterSchema>({
     resolver: zodResolver(registerSchema),
   });
 
   const theme = useTheme();
+  const navigate = useNavigate();
 
-  const onSubmit = (data: RegisterSchema) => {
-    console.log("Yeezus");
+  const onSubmit = async (data: RegisterSchema) => {
+    try {
+      await createUserWithEmailAndPassword(auth, data.email, data.password);
+      navigate("/");
+    } catch (err) {
+        
+    }
   };
 
   return (
@@ -90,6 +99,8 @@ const Register = () => {
             helperText={errors.confirmPassword?.message}
           />
 
+          {errors.root && <div style={{color: "black"}}> {errors.root.message}</div>}
+          {/* Display error message */}
           <Button
             type="submit"
             variant="contained"

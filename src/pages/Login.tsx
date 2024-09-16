@@ -7,28 +7,48 @@ import {
   CardHeader,
   CardContent,
   Button,
+  Alert,
+  CircularProgress
 } from "@mui/material";
 import { loginSchema } from "../validationSchemas/authForms";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import z from "zod";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { signInWithEmailAndPassword } from "firebase/auth";
+import { auth } from "../config/firebase";
+import { useState } from "react";
 
 type LoginSchema = z.infer<typeof loginSchema>;
 
 const Login = () => {
+
+  const [loading, setLoading] = useState(false);
+
   const {
     register,
     handleSubmit,
+    setError,
     formState: { errors },
   } = useForm<LoginSchema>({
     resolver: zodResolver(loginSchema),
   });
 
   const theme = useTheme();
+  const navigate = useNavigate();
 
-  const onSubmit = (data: LoginSchema) => {
-    console.log("Yeezus");
+  const onSubmit = async (data: LoginSchema) => {
+    setLoading(true);
+    try {
+      await signInWithEmailAndPassword(auth, data.email, data.password);
+      navigate("/");
+    } catch (err) {
+      console.log("Cau");
+      setError("root", { message: "Incorrect username or password" });
+    }
+    finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -83,12 +103,18 @@ const Login = () => {
             helperText={errors.password?.message}
           />
 
+          {errors.root && (
+            <Alert severity="error" sx={{ mb: 2 }}>
+              {errors.root.message}
+            </Alert>
+          )}
+
           <Button
             type="submit"
             variant="contained"
             onClick={handleSubmit(onSubmit)}
           >
-            SIGN IN
+            {loading? <CircularProgress color="secondary" /> : "SIGN IN"}
           </Button>
           <Typography variant="body2" align="center" sx={{ mt: 2 }}>
             Don’t have an account?{" "}

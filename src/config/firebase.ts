@@ -3,14 +3,15 @@ import { getAnalytics } from "firebase/analytics";
 import { getAuth } from "firebase/auth";
 
 const firebaseConfig = {
-  apiKey: process.env.FIREBASE_API_KEY,
-  authDomain: process.env.FIREBASE_AUTH_DOMAIN,
-  projectId: process.env.FIREBASE_PROJECT_ID,
-  storageBucket: process.env.FIREBASE_STORAGE_BUCKET,
-  messagingSenderId: process.env.FIREBASE_MESSAGING_SENDER_ID,
-  appId: process.env.FIREBASE_APP_ID,
-  measurementId: process.env.FIREBASE_MEASUREMENT_ID,
+  apiKey: "AIzaSyBkTVbiuT99089Z8w0yskv7twOniR_YCRE",
+  authDomain: "films-aed2d.firebaseapp.com",
+  projectId: "films-aed2d",
+  storageBucket: "films-aed2d.appspot.com",
+  messagingSenderId: "928663154226",
+  appId: "1:928663154226:web:97cf83824668d47873d62b",
+  measurementId: "G-CDZ4Q5RKZQ"
 };
+
 
 const app = initializeApp(firebaseConfig);
 const analytics = getAnalytics(app);

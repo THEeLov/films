@@ -7,6 +7,7 @@ import theme from "./theme.tsx";
 const queryClient = new QueryClient();
 
 const App = () => {
+
   return (
     <QueryClientProvider client={queryClient}>
       <ThemeProvider theme={theme}>
