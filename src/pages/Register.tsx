@@ -8,26 +8,26 @@ import {
   CardContent,
   Button,
 } from "@mui/material";
-import { loginSchema } from "../validationSchemas/authForms";
+import { registerSchema } from "../validationSchemas/authForms";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import z from "zod";
 import { Link } from "react-router-dom";
 
-type LoginSchema = z.infer<typeof loginSchema>;
+type RegisterSchema = z.infer<typeof registerSchema>;
 
-const Login = () => {
+const Register = () => {
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<LoginSchema>({
-    resolver: zodResolver(loginSchema),
+  } = useForm<RegisterSchema>({
+    resolver: zodResolver(registerSchema),
   });
 
   const theme = useTheme();
 
-  const onSubmit = (data: LoginSchema) => {
+  const onSubmit = (data: RegisterSchema) => {
     console.log("Yeezus");
   };
 
@@ -61,7 +61,7 @@ const Login = () => {
               align="center"
               sx={{ fontWeight: "bold", userSelect: "none" }}
             >
-              SIGN IN
+              SIGN UP
             </Typography>
           }
         />
@@ -82,23 +82,30 @@ const Login = () => {
             error={typeof errors.password !== "undefined"}
             helperText={errors.password?.message}
           />
+          <TextField
+            label="Confirm Password"
+            type="password"
+            {...register("confirmPassword")}
+            error={typeof errors.confirmPassword !== "undefined"}
+            helperText={errors.confirmPassword?.message}
+          />
 
           <Button
             type="submit"
             variant="contained"
             onClick={handleSubmit(onSubmit)}
           >
-            SIGN IN
+            SIGN UP
           </Button>
           <Typography variant="body2" align="center" sx={{ mt: 2 }}>
-            Don’t have an account?{" "}
+            Already have an account ?{" "}
             <Typography
               component={Link}
-              to="/register"
+              to="/login"
               variant="body2"
               sx={{ color: theme.palette.primary.main }}
             >
-              Sign Up
+              Sign In
             </Typography>
           </Typography>
         </CardContent>
@@ -107,4 +114,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default Register;
