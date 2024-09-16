@@ -8,7 +8,7 @@ import {
   CardContent,
   Button,
   Alert,
-  CircularProgress
+  CircularProgress,
 } from "@mui/material";
 import { loginSchema } from "../validationSchemas/authForms";
 import { useForm } from "react-hook-form";
@@ -22,7 +22,6 @@ import { useState } from "react";
 type LoginSchema = z.infer<typeof loginSchema>;
 
 const Login = () => {
-
   const [loading, setLoading] = useState(false);
 
   const {
@@ -45,8 +44,7 @@ const Login = () => {
     } catch (err) {
       console.log("Cau");
       setError("root", { message: "Incorrect username or password" });
-    }
-    finally {
+    } finally {
       setLoading(false);
     }
   };
@@ -114,7 +112,7 @@ const Login = () => {
             variant="contained"
             onClick={handleSubmit(onSubmit)}
           >
-            {loading? <CircularProgress color="secondary" /> : "SIGN IN"}
+            {loading ? <CircularProgress color="secondary" /> : "SIGN IN"}
           </Button>
           <Typography variant="body2" align="center" sx={{ mt: 2 }}>
             Don’t have an account?{" "}

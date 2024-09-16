@@ -33,7 +33,8 @@ const Register = () => {
 
   const onSubmit = async (data: RegisterSchema) => {
     try {
-      await createUserWithEmailAndPassword(auth, data.email, data.password);
+      const response = await createUserWithEmailAndPassword(auth, data.email, data.password);
+      console.log(response)
       navigate("/");
     } catch (err) {
         
