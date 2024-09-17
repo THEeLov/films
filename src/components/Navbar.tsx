@@ -5,7 +5,7 @@ import Typography from "@mui/material/Typography";
 import { Button } from "@mui/material";
 import Box from "@mui/material/Box";
 import { Link } from "react-router-dom";
-import { auth } from "../../config/firebase";
+import { auth } from "../config/firebase";
 import { signOut } from "firebase/auth";
 import { useState } from "react";
 import { boolean } from "zod";
