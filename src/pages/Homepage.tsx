@@ -1,11 +1,9 @@
-import {
-  Box,
-  useTheme,
-} from "@mui/material";
+import { Box, useTheme, Divider } from "@mui/material";
 import { useEffect, useState } from "react";
 import { collection, getDocs } from "firebase/firestore";
 import { db } from "../config/firebase";
 import { Movie } from "../types";
+import MovieCard from "../components/MovieCard";
 
 const Homepage = () => {
   const theme = useTheme();
@@ -32,11 +30,15 @@ const Homepage = () => {
     <Box
       component="main"
       sx={{
-        padding: "1rem",
         backgroundColor: theme.palette.primary.main,
       }}
     >
-    
+      {movieList.map((movie) => (
+        <>
+          <MovieCard movie={movie} />
+          <Divider variant="middle" />
+        </>
+      ))}
     </Box>
   );
 };
