@@ -3,6 +3,7 @@ import Homepage from "../pages/Homepage"
 import MainLayout from "../layouts/MainLayout"
 import Login from "../pages/Login"
 import Register from "../pages/Register"
+import FilmAdd from "../pages/FilmAdd"
 
 export const router = createBrowserRouter([
   {
@@ -12,6 +13,10 @@ export const router = createBrowserRouter([
       {
         index: true,
         Component: Homepage
+      },
+      {
+        path: "/film-add",
+        Component: FilmAdd
       }
     ]
   },
@@ -20,7 +25,7 @@ export const router = createBrowserRouter([
     Component: Login
   },
   {
-    path: "register",
+    path: "/register",
     Component: Register
   }
 ])

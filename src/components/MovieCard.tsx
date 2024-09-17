@@ -1,4 +1,4 @@
-import { Box, Card, CardContent, CardMedia, Typography, useTheme } from "@mui/material";
+import { Box, Card, CardMedia, Typography, useTheme } from "@mui/material";
 import { Movie } from "../types";
 
 const MovieCard = ({ movie }: { movie: Movie }) => {

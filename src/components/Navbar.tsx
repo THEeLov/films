@@ -7,14 +7,22 @@ import Box from "@mui/material/Box";
 import { Link } from "react-router-dom";
 import { auth } from "../config/firebase";
 import { signOut } from "firebase/auth";
-import { useState } from "react";
-import { boolean } from "zod";
+import { useEffect, useState } from "react";
+import { User } from 'firebase/auth';
 
 const Navbar = () => {
 
   const [isLoading, setIsLoading] = useState(false);
+  const [user, setUser] = useState<User | null>(null);
 
-  const user = auth.currentUser;
+  useEffect(() => {
+    const unsubscribe = auth.onAuthStateChanged((user) => {
+      setUser(user);
+      setIsLoading(false);
+    });
+
+    return () => unsubscribe(); 
+  }, []);
 
   const handleSignOut = async () => {
     setIsLoading(true);
@@ -30,7 +38,7 @@ const Navbar = () => {
   };
 
   return (
-    <AppBar position="static" color="secondary">
+    <AppBar position="sticky" color="secondary">
       <Toolbar>
         {/* LOGO */}
         <TheatersIcon />
@@ -62,6 +70,7 @@ const Navbar = () => {
             SIGN IN
           </Button>
         )}
+        
       </Toolbar>
     </AppBar>
   );

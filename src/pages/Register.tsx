@@ -81,6 +81,7 @@ const Register = () => {
         >
           <TextField
             label="Email"
+            variant="filled"
             {...register("email")}
             error={typeof errors.email !== "undefined"}
             helperText={errors.email?.message}
@@ -88,12 +89,14 @@ const Register = () => {
           <TextField
             label="Password"
             type="password"
+            variant="filled"
             {...register("password")}
             error={typeof errors.password !== "undefined"}
             helperText={errors.password?.message}
           />
           <TextField
             label="Confirm Password"
+            variant="filled"
             type="password"
             {...register("confirmPassword")}
             error={typeof errors.confirmPassword !== "undefined"}

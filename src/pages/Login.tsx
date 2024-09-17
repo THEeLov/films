@@ -89,12 +89,14 @@ const Login = () => {
         >
           <TextField
             label="Email"
+            variant="filled"
             {...register("email")}
             error={typeof errors.email !== "undefined"}
             helperText={errors.email?.message}
           />
           <TextField
             label="Password"
+            variant="filled"
             type="password"
             {...register("password")}
             error={typeof errors.password !== "undefined"}
