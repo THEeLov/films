@@ -1,7 +1,7 @@
-import { useEffect, useState } from 'react';
-import { collection, onSnapshot, orderBy, query } from 'firebase/firestore';
-import CommentCard from './CommentCard';
-import { store } from '../config/firebase';
+import React, { useEffect, useState } from "react";
+import { collection, onSnapshot, orderBy, query } from "firebase/firestore";
+import { store } from "../config/firebase"; // Adjust the import according to your Firebase setup
+import CommentCard from "./CommentCard"; // Adjust import if needed
 
 const Comments = ({ movieId }: { movieId: string }) => {
   const [comments, setComments] = useState<any[]>([]);
@@ -14,9 +14,9 @@ const Comments = ({ movieId }: { movieId: string }) => {
 
     const unsubscribe = onSnapshot(q, (querySnapshot) => {
       try {
-        const fetchedComments = querySnapshot.docs.map(doc => ({
+        const fetchedComments = querySnapshot.docs.map((doc) => ({
           id: doc.id,
-          ...doc.data()
+          ...doc.data(),
         }));
         setComments(fetchedComments);
       } catch (error) {
@@ -30,24 +30,21 @@ const Comments = ({ movieId }: { movieId: string }) => {
     return () => unsubscribe();
   }, [movieId]);
 
-  if (loading) {
-    return <div>Loading comments...</div>;
-  }
-
-  if (error) {
-    return <div>{error}</div>;
-  }
-
   return (
     <div>
-      {comments.length === 0 ? (
+      {loading ? (
+        <div>Loading comments...</div>
+      ) : error ? (
+        <div>{error}</div>
+      ) : comments && comments.length === 0 ? (
         <div>No comments yet.</div>
       ) : (
-        comments.map(comment => (
+        comments &&
+        comments.map((comment) => (
           <CommentCard
             key={comment.id}
             text={comment.comment}
-            date={comment.date.toDate().toLocaleDateString()}
+            date={comment.date.toDate().toLocaleString()}
           />
         ))
       )}

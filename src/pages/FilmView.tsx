@@ -5,7 +5,6 @@ import { Movie } from "../types";
 import { doc, getDoc } from "firebase/firestore";
 import { CircularProgress, Box, useTheme, Typography } from "@mui/material";
 import Grid from "@mui/material/Grid2";
-import Decorator from "../decorators/Decorator";
 import SecondaryText from "../components/SecondaryText";
 import CommentForm from "../forms/CommentForm";
 import Comments from "../components/Comments";

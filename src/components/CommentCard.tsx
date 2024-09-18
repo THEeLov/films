@@ -2,7 +2,11 @@ import { Box, CardContent, Typography, Avatar } from '@mui/material';
 import { format } from 'date-fns';
 
 const CommentCard = ({ text, date }: { text: string; date: string }) => {
-  const formattedDate = format(new Date(date), 'MMMM dd, yyyy');
+
+  let formattedDate = format(new Date(), 'MMMM dd, yyyy HH:mm:ss');
+  if (date) {
+    formattedDate = format(new Date(date), 'MMMM dd, yyyy HH:mm:ss');
+  }
 
   return (
     <Box sx={{borderRadius: '0px', backgroundColor: "inherit"  }}>
