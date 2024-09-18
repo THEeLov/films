@@ -58,7 +58,6 @@ const FilmAdd = () => {
     formState: { errors },
     setValue,
     watch,
-    reset
   } = useForm<MovieCreateSchema>({
     resolver: zodResolver(movieCreateSchema),
     defaultValues: {
@@ -111,7 +110,7 @@ const FilmAdd = () => {
       navigate("/");
 
     } catch (error) {
-      console.error('Error adding movie:', error);
+      alert('Something went wrong we are sorry!');
     } finally {
       setLoading(false);
     }

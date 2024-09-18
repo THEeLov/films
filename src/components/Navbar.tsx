@@ -1,19 +1,31 @@
-import { AppBar, CircularProgress } from "@mui/material";
+import { AppBar, IconButton, Menu, MenuItem } from "@mui/material";
 import Toolbar from "@mui/material/Toolbar";
 import TheatersIcon from "@mui/icons-material/Theaters";
 import Typography from "@mui/material/Typography";
 import { Button } from "@mui/material";
 import Box from "@mui/material/Box";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { useAuth } from "../contexts/AuthProvider";
 import { auth } from "../config/firebase";
 import { signOut } from "firebase/auth";
+import React from "react";
+import { AccountCircle } from "@mui/icons-material";
 
 const Navbar = () => {
   const { currentUser } = useAuth();
+  const navigate = useNavigate();
 
-  const [isLoading, setIsLoading] = useState(false);
+  const [_, setIsLoading] = useState(false);
+  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+
+  const handleMenu = (event: React.MouseEvent<HTMLElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
 
   const handleSignOut = async () => {
     setIsLoading(true);
@@ -51,9 +63,36 @@ const Navbar = () => {
         {/* ACCOUNT */}
         <Box sx={{ flexGrow: 1 }} />
         {currentUser ? (
-          <Button variant="contained" onClick={handleSignOut}>
-            {isLoading ? <CircularProgress color="secondary" /> : "SIGN OUT"}
-          </Button>
+          <>
+            <IconButton
+              size="small"
+              aria-label="account of current user"
+              aria-controls="menu-appbar"
+              aria-haspopup="true"
+              onClick={handleMenu}
+              color="inherit"
+            >
+              <AccountCircle />
+            </IconButton>
+            <Menu
+              id="menu-appbar"
+              anchorEl={anchorEl}
+              anchorOrigin={{
+                vertical: "top",
+                horizontal: "right",
+              }}
+              keepMounted
+              transformOrigin={{
+                vertical: "top",
+                horizontal: "right",
+              }}
+              open={Boolean(anchorEl)}
+              onClose={handleClose}
+            >
+              <MenuItem onClick={() => navigate(`/film-add`)}>Add Film</MenuItem>
+              <MenuItem onClick={handleSignOut}>Sign Out</MenuItem>
+            </Menu>
+          </>
         ) : (
           <Button variant="outlined" component={Link} to={`/login`}>
             SIGN IN
