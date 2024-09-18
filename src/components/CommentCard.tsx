@@ -1,5 +1,5 @@
-import { Box, Card, CardContent, Typography, Avatar } from '@mui/material';
-import { format, formatDistanceToNow } from 'date-fns';
+import { Box, CardContent, Typography, Avatar } from '@mui/material';
+import { format } from 'date-fns';
 
 const CommentCard = ({ text, date }: { text: string; date: string }) => {
   const formattedDate = format(new Date(date), 'MMMM dd, yyyy');

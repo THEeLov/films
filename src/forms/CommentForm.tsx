@@ -9,11 +9,11 @@ import { commentSchema } from "../validationSchemas/commentForm";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import z from "zod";
-import { auth, store } from "../config/firebase";
+import { store } from "../config/firebase";
 import { useState } from "react";
 import { AccountCircle } from "@mui/icons-material";
 import { addTextFieldCommentStyle } from "../theme";
-import { addDoc, collection, serverTimestamp } from "firebase/firestore";
+import { addDoc, collection } from "firebase/firestore";
 
 type CommentSchema = z.infer<typeof commentSchema>;
 
@@ -25,7 +25,7 @@ const CommentForm = ({ movieId }: { movieId: string }) => {
     register,
     handleSubmit,
     reset,
-    formState: { errors },
+    formState: {},
   } = useForm<CommentSchema>({
     resolver: zodResolver(commentSchema),
   });
