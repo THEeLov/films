@@ -9,10 +9,11 @@ import { commentSchema } from "../validationSchemas/commentForm";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import z from "zod";
-import { auth } from "../config/firebase";
+import { auth, store } from "../config/firebase";
 import { useState } from "react";
 import { AccountCircle } from "@mui/icons-material";
 import { addTextFieldCommentStyle } from "../theme";
+import { addDoc, collection, serverTimestamp } from "firebase/firestore";
 
 type CommentSchema = z.infer<typeof commentSchema>;
 
@@ -29,7 +30,23 @@ const CommentForm = ({ movieId }: { movieId: string }) => {
     resolver: zodResolver(commentSchema),
   });
 
-  const onSubmit = async (data: CommentSchema) => {};
+  const onSubmit = async (data: CommentSchema) => {
+    setLoading(true);
+    try {
+      const commentsRef = collection(store, `movies/${movieId}/comments`);
+      await addDoc(commentsRef, {
+        comment: data.comment,
+        date: (new Date()),
+      });
+      
+      reset();
+    } catch (error) {
+      console.error("Error adding comment: ", error);
+      alert('Failed to add comment. Please try again.');
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <Box

@@ -1,7 +1,7 @@
-import  { useEffect, useState } from 'react';
-import { collection, getDocs, orderBy, query } from 'firebase/firestore';
-import { store } from '../config/firebase'; // Adjust the import based on your Firebase setup
-import CommentCard from './CommentCard'; // Import your CommentCard component
+import { useEffect, useState } from 'react';
+import { collection, onSnapshot, orderBy, query } from 'firebase/firestore';
+import CommentCard from './CommentCard';
+import { store } from '../config/firebase';
 
 const Comments = ({ movieId }: { movieId: string }) => {
   const [comments, setComments] = useState<any[]>([]);
@@ -9,17 +9,15 @@ const Comments = ({ movieId }: { movieId: string }) => {
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    const fetchComments = async () => {
-      try {
-        const commentsRef = collection(store, `movies/${movieId}/comments`);
-        const q = query(commentsRef, orderBy("date", "desc"));
-        const querySnapshot = await getDocs(q);
+    const commentsRef = collection(store, `movies/${movieId}/comments`);
+    const q = query(commentsRef, orderBy("date", "desc"));
 
+    const unsubscribe = onSnapshot(q, (querySnapshot) => {
+      try {
         const fetchedComments = querySnapshot.docs.map(doc => ({
           id: doc.id,
           ...doc.data()
         }));
-
         setComments(fetchedComments);
       } catch (error) {
         setError("Failed to fetch comments.");
@@ -27,9 +25,9 @@ const Comments = ({ movieId }: { movieId: string }) => {
       } finally {
         setLoading(false);
       }
-    };
+    });
 
-    fetchComments();
+    return () => unsubscribe();
   }, [movieId]);
 
   if (loading) {
