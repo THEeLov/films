@@ -4,8 +4,11 @@ import { useEffect, useState } from "react";
 import { Movie } from "../types";
 import { doc, getDoc } from "firebase/firestore";
 import { CircularProgress, Box, useTheme, Typography } from "@mui/material";
+import Grid from "@mui/material/Grid2";
 import Decorator from "../decorators/Decorator";
 import SecondaryText from "../components/SecondaryText";
+import CommentForm from "../forms/CommentForm";
+import Comments from "../components/Comments";
 
 const FilmView = () => {
   const theme = useTheme();
@@ -55,6 +58,8 @@ const FilmView = () => {
         padding: "1rem",
         overflowX: "hidden",
         position: "relative",
+        flexDirection: "column",
+        gap: "3rem",
       }}
     >
       {loading && <CircularProgress color="error" />}
@@ -63,33 +68,63 @@ const FilmView = () => {
 
       {movie && (
         <>
-          <Box component="div" display="flex" gap="2rem" flexWrap="wrap">
-            <Box
-              component="img"
-              src={movie.imageUrl}
-              width="200px"
-              height="250px"
-            ></Box>
-            <Box component="div">
-              <Typography
-                component="h3"
-                variant="h3"
-                fontWeight="bold"
-                marginBottom="1rem"
-              >
-                {movie.title}
-              </Typography>
-              <SecondaryText label="Release Date" value={movie.releaseDate} />
-              <SecondaryText label="Genres" value={movie.genre.join(" / ")} />
-              <SecondaryText label="Rating" value={movie.rating} />
-              <SecondaryText label="Description" value={movie.description}/>
-            </Box>
-          </Box>
-          <Box>
-            
-          </Box>
+          <Box component="div" sx={{ flexGrow: 1, marginTop: "4rem" }}>
+            <Grid container>
+              {/* Movie Image Section */}
+              <Grid size={{ lg: 6, sm: 6 }}>
+                <Box
+                  component="img"
+                  src={movie.imageUrl}
+                  sx={{
+                    width: "200px",
+                    height: "250px",
+                    borderRadius: "8px",
+                  }}
+                />
+              </Grid>
 
-          <Decorator />
+              {/* Movie Info Section */}
+              <Grid size={{ lg: 6, sm: 6 }}>
+                <Box display="flex" flexDirection="column" flexGrow={1}>
+                  <Typography
+                    component="h3"
+                    variant="h3"
+                    fontWeight="bold"
+                    marginBottom="1rem"
+                  >
+                    {movie.title}
+                  </Typography>
+                  <SecondaryText
+                    label="Release Date"
+                    value={movie.releaseDate}
+                  />
+                  <SecondaryText
+                    label="Genres"
+                    value={movie.genre.join(" / ")}
+                  />
+                  <SecondaryText
+                    label="Rating"
+                    value={((movie.rating / 5) * 100).toString() + "%"}
+                  />
+                  <SecondaryText
+                    label="Description"
+                    value={movie.description}
+                  />
+                </Box>
+              </Grid>
+
+              {/* Comment Section Below */}
+              <Grid size={12} marginTop="6rem">
+                <Box width="90%">
+                  <CommentForm movieId={movie.id} />
+                </Box>
+              </Grid>
+            </Grid>
+            <Box width="100%" marginTop="1rem">
+                <b>Commmets</b>
+                <Comments movieId={movie.id} />
+              </Box>
+          </Box>
         </>
       )}
     </Box>

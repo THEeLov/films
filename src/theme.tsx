@@ -40,10 +40,29 @@ export const addTextFieldStyle = {
   },
 }};
 
+export const addTextFieldCommentStyle = {
+  "& .MuiInputBase-root": {
+    backgroundColor: "inherit",
+    color: "white",
+  },
+  "& .MuiFormLabel-root": {
+    color: "#ff6464",
+  },
+  "& .MuiInput-underline:before": {
+    borderBottomColor: "black",
+  },
+  "& .MuiInput-underline:after": {
+    borderBottomColor: "#ff6464",
+  },
+  "& .Mui-error": {
+    color: "#ff6464",
+  },
+};
+
 export const addCheckboxStyle = {
-  color: "#ff6464", // Unchecked checkbox color
+  color: "#ff6464",
   "&.Mui-checked": {
-  color: "#ff6464", // Checked checkbox color
+  color: "#ff6464",
   },
 };
 
