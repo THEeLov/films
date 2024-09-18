@@ -18,11 +18,13 @@ import { Link, useNavigate } from "react-router-dom";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../config/firebase";
 import { useState } from "react";
+import Decorator from "../decorators/Decorator";
 
 type LoginSchema = z.infer<typeof loginSchema>;
 
 const Login = () => {
   const [loading, setLoading] = useState(false);
+
 
   const {
     register,
@@ -42,7 +44,6 @@ const Login = () => {
       await signInWithEmailAndPassword(auth, data.email, data.password);
       navigate("/");
     } catch (err) {
-      console.log("Cau");
       setError("root", { message: "Incorrect username or password" });
     } finally {
       setLoading(false);
@@ -60,6 +61,8 @@ const Login = () => {
         justifyContent: "center",
         height: "100vh",
         alignItems: "center",
+        position: "relative",
+        overflowX: "hidden",
       }}
       noValidate
       autoComplete="off"
@@ -129,6 +132,8 @@ const Login = () => {
           </Typography>
         </CardContent>
       </Card>
+
+      <Decorator />
     </Box>
   );
 };

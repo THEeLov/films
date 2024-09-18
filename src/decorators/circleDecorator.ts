@@ -1,5 +1,3 @@
-import zIndex from "@mui/material/styles/zIndex";
-
 const baseCircle = {
   backgroundColor: "#ff6464",
   borderRadius: "50%",
@@ -9,7 +7,6 @@ const baseCircle = {
     sm: "block", 
   },
   zIndex: 0,
-  overflow: "hidden"
 };
 
 export const littleCircle = {
@@ -26,6 +23,6 @@ export const mediumCircle = {
 
 export const largeCircle = {
   ...baseCircle,
-  width: "200px",
-  height: "200px",
+  width: "300px",
+  height: "300px",
 };

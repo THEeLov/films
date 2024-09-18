@@ -15,6 +15,7 @@ import z from "zod";
 import { Link, useNavigate } from "react-router-dom";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../config/firebase";
+import Decorator from "../decorators/Decorator";
 
 type RegisterSchema = z.infer<typeof registerSchema>;
 
@@ -22,7 +23,6 @@ const Register = () => {
   const {
     register,
     handleSubmit,
-    setError,
     formState: { errors },
   } = useForm<RegisterSchema>({
     resolver: zodResolver(registerSchema),
@@ -33,12 +33,9 @@ const Register = () => {
 
   const onSubmit = async (data: RegisterSchema) => {
     try {
-      const response = await createUserWithEmailAndPassword(auth, data.email, data.password);
-      console.log(response)
+      await createUserWithEmailAndPassword(auth, data.email, data.password);
       navigate("/");
-    } catch (err) {
-        
-    }
+    } catch (err) {}
   };
 
   return (
@@ -52,6 +49,8 @@ const Register = () => {
         justifyContent: "center",
         height: "100vh",
         alignItems: "center",
+        position: "relative",
+        overflowX: "hidden",
       }}
       noValidate
       autoComplete="off"
@@ -103,7 +102,9 @@ const Register = () => {
             helperText={errors.confirmPassword?.message}
           />
 
-          {errors.root && <div style={{color: "black"}}> {errors.root.message}</div>}
+          {errors.root && (
+            <div style={{ color: "black" }}> {errors.root.message}</div>
+          )}
           {/* Display error message */}
           <Button
             type="submit"
@@ -125,6 +126,7 @@ const Register = () => {
           </Typography>
         </CardContent>
       </Card>
+      <Decorator />
     </Box>
   );
 };

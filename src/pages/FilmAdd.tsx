@@ -92,7 +92,8 @@ const FilmAdd = () => {
         "& .MuiTextField-root": { width: "30ch" },
         position: "relative",
         backgroundColor: theme.palette.primary.main,
-        padding: "1rem"
+        padding: "1rem",
+        overflowX: "hidden"
       }}
       noValidate
       autoComplete="off"
@@ -284,7 +285,7 @@ const FilmAdd = () => {
           {loading ? <CircularProgress color="secondary" /> : "Submit"}
         </Button>
 
-        {/* <Decorator /> */}
+        <Decorator />
       </Box>
     </Box>
   );

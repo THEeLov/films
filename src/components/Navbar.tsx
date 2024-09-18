@@ -5,34 +5,23 @@ import Typography from "@mui/material/Typography";
 import { Button } from "@mui/material";
 import Box from "@mui/material/Box";
 import { Link } from "react-router-dom";
+import { useState } from "react";
+import { useAuth } from "../contexts/AuthProvider";
 import { auth } from "../config/firebase";
 import { signOut } from "firebase/auth";
-import { useEffect, useState } from "react";
-import { User } from 'firebase/auth';
 
 const Navbar = () => {
+  const { currentUser } = useAuth();
 
   const [isLoading, setIsLoading] = useState(false);
-  const [user, setUser] = useState<User | null>(null);
-
-  useEffect(() => {
-    const unsubscribe = auth.onAuthStateChanged((user) => {
-      setUser(user);
-      setIsLoading(false);
-    });
-
-    return () => unsubscribe(); 
-  }, []);
 
   const handleSignOut = async () => {
     setIsLoading(true);
     try {
       await signOut(auth);
     } catch (error) {
-      // An error occurred while signing out.
-      console.error("Error signing out: ", error);
-    }
-    finally {
+      console.error("Failed to sign out:", error);
+    } finally {
       setIsLoading(false);
     }
   };
@@ -61,7 +50,7 @@ const Navbar = () => {
 
         {/* ACCOUNT */}
         <Box sx={{ flexGrow: 1 }} />
-        {user ? (
+        {currentUser ? (
           <Button variant="contained" onClick={handleSignOut}>
             {isLoading ? <CircularProgress color="secondary" /> : "SIGN OUT"}
           </Button>
@@ -70,7 +59,6 @@ const Navbar = () => {
             SIGN IN
           </Button>
         )}
-        
       </Toolbar>
     </AppBar>
   );
