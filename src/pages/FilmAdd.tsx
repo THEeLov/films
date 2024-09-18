@@ -3,7 +3,6 @@ import {
   TextField,
   Typography,
   Button,
-  Alert,
   CircularProgress,
   InputAdornment,
   FormLabel,
@@ -15,8 +14,6 @@ import { movieCreateSchema } from "../validationSchemas/movieCreate";
 import { Controller, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import z from "zod";
-import { Link, useNavigate } from "react-router-dom";
-import { auth } from "../config/firebase";
 import { useState } from "react";
 import DriveFileRenameOutlineIcon from "@mui/icons-material/DriveFileRenameOutline";
 import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
@@ -25,13 +22,14 @@ import DescriptionIcon from "@mui/icons-material/Description";
 import ImageIcon from "@mui/icons-material/Image";
 import { addTextFieldStyle } from "../theme";
 import { addCheckboxStyle } from "../theme";
-import Decorator from "../decorators/Decorator"
+import Decorator from "../decorators/Decorator";
+import { doc, setDoc } from 'firebase/firestore';
+import { v4 as uuidv4 } from 'uuid';
+import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
+import { storage, db } from '../config/firebase';
+import { useNavigate } from "react-router-dom";
+import { Movie } from "../types";
 
-import {
-  littleCircle,
-  mediumCircle,
-  largeCircle,
-} from "../decorators/circleDecorator";
 
 type MovieCreateSchema = z.infer<typeof movieCreateSchema>;
 
@@ -49,6 +47,7 @@ export const genres = [
 const FilmAdd = () => {
   const [loading, setLoading] = useState(false);
   const [imagePreview, setImagePreview] = useState<string | null>(null);
+  const navigate = useNavigate();
 
   const theme = useTheme();
 
@@ -59,6 +58,7 @@ const FilmAdd = () => {
     formState: { errors },
     setValue,
     watch,
+    reset
   } = useForm<MovieCreateSchema>({
     resolver: zodResolver(movieCreateSchema),
     defaultValues: {
@@ -66,10 +66,55 @@ const FilmAdd = () => {
     },
   });
 
-  const selectedGenres = watch("genre");
+  watch("genre");
 
+  const uploadImage = async (file: File): Promise<string> => {
+    return new Promise((resolve, reject) => {
+      const storageRef = ref(storage, `images/${file.name + uuidv4()}`);
+      const uploadTask = uploadBytesResumable(storageRef, file);
+
+      uploadTask.on(
+        'state_changed',
+        () => {},
+        (error) => reject(error),
+        () => {
+          getDownloadURL(uploadTask.snapshot.ref).then(resolve).catch(reject);
+        }
+      );
+    });
+  };
+  
   const onSubmit = async (data: MovieCreateSchema) => {
-    console.log(data);
+    setLoading(true);
+    try {
+      let imageUrl = '';
+
+      if (data.image && data.image.length > 0) {
+        const file = data.image[0];
+        imageUrl = await uploadImage(file);
+      }
+
+      const movieId = uuidv4();
+
+      const movie: Omit<Movie, 'id'> = {
+        title: data.title,
+        description: data.description,
+        name: data.title,
+        imageUrl: imageUrl,
+        rating: data.rating,
+        releaseDate: data.releaseDate,
+        genre: data.genre,
+      };
+
+      await setDoc(doc(db, 'movies', movieId), movie);
+      alert('Movie added successfully!');
+      navigate("/");
+
+    } catch (error) {
+      console.error('Error adding movie:', error);
+    } finally {
+      setLoading(false);
+    }
   };
 
   const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -93,7 +138,7 @@ const FilmAdd = () => {
         position: "relative",
         backgroundColor: theme.palette.primary.main,
         padding: "1rem",
-        overflowX: "hidden"
+        overflowX: "hidden",
       }}
       noValidate
       autoComplete="off"
