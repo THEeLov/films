@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { collection, onSnapshot, orderBy, query } from "firebase/firestore";
-import { store } from "../config/firebase"; // Adjust the import according to your Firebase setup
-import CommentCard from "./CommentCard"; // Adjust import if needed
+import { store } from "../config/firebase";
+import CommentCard from "./CommentCard";
 
 const Comments = ({ movieId }: { movieId: string }) => {
   const [comments, setComments] = useState<any[]>([]);
@@ -44,7 +44,11 @@ const Comments = ({ movieId }: { movieId: string }) => {
           <CommentCard
             key={comment.id}
             text={comment.comment}
-            date={comment.date.toDate().toLocaleString()}
+            date={
+              comment.date && comment.date.toDate
+                ? comment.date.toDate().toLocaleString()
+                : "not valid"
+            }
           />
         ))
       )}

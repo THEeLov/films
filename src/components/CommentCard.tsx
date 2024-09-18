@@ -1,21 +1,26 @@
-import { Box, CardContent, Typography, Avatar } from '@mui/material';
-import { format } from 'date-fns';
+import { Box, CardContent, Typography, Avatar } from "@mui/material";
+import { format } from "date-fns";
 
 const CommentCard = ({ text, date }: { text: string; date: string }) => {
+  let formattedDate = "Unknown date";
 
-  let formattedDate = format(new Date(), 'MMMM dd, yyyy HH:mm:ss');
-  if (date) {
-    formattedDate = format(new Date(date), 'MMMM dd, yyyy HH:mm:ss');
+  try {
+    if (date) {
+      const parsedDate = new Date(date);
+      if (!isNaN(parsedDate.getTime())) {
+        formattedDate = format(parsedDate, "MMMM dd, yyyy HH:mm:ss");
+      }
+    }
+  } catch (error) {
+    console.error("Error formatting date: ", error);
   }
 
   return (
-    <Box sx={{borderRadius: '0px', backgroundColor: "inherit"  }}>
+    <Box sx={{ borderRadius: "0px", backgroundColor: "inherit" }}>
       <CardContent>
         <Box display="flex" alignItems="flex-start" gap="1rem">
-          <Avatar sx={{ bgcolor: '#ff6464', color: '#fff' }}>
-
-            {/* First letter of the name or a placeholder */}
-            U
+          <Avatar sx={{ bgcolor: "#ff6464", color: "#fff" }}>
+            {/* Placeholder initial for the user */}U
           </Avatar>
           <Box flex="1">
             <Typography variant="body1" gutterBottom>
