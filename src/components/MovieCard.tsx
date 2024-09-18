@@ -1,18 +1,23 @@
 import { Box, Card, CardMedia, Typography, useTheme } from "@mui/material";
 import { Movie } from "../types";
+import { useNavigate } from "react-router-dom";
 
 const MovieCard = ({ movie }: { movie: Movie }) => {
   const theme = useTheme();
+  const navigate = useNavigate();
 
   return (
     <Card
       sx={{
         display: "flex",
         borderRadius: "0",
+        transition: "transform 0.2s ease",
         "&:hover": {
           cursor: "pointer",
+          transform: "scale(0.995)",
         },
       }}
+      onClick={() => navigate(`/film/${movie.id}`)} 
     >
       <CardMedia
         component="img"

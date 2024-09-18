@@ -1,9 +1,10 @@
-import { createBrowserRouter } from "react-router-dom"
-import Homepage from "../pages/Homepage"
-import MainLayout from "../layouts/MainLayout"
-import Login from "../pages/Login"
-import Register from "../pages/Register"
-import FilmAdd from "../pages/FilmAdd"
+import { createBrowserRouter } from "react-router-dom";
+import Homepage from "../pages/Homepage";
+import MainLayout from "../layouts/MainLayout";
+import Login from "../pages/Login";
+import Register from "../pages/Register";
+import FilmAdd from "../pages/FilmAdd";
+import FilmView from "../pages/FilmView";
 
 export const router = createBrowserRouter([
   {
@@ -12,20 +13,24 @@ export const router = createBrowserRouter([
     children: [
       {
         index: true,
-        Component: Homepage
+        Component: Homepage,
       },
       {
         path: "/film-add",
-        Component: FilmAdd
-      }
-    ]
+        Component: FilmAdd,
+      },
+      {
+        path: "/film/:id",
+        Component: FilmView
+      },
+    ],
   },
   {
     path: "/login",
-    Component: Login
+    Component: Login,
   },
   {
     path: "/register",
-    Component: Register
-  }
-])
+    Component: Register,
+  },
+]);

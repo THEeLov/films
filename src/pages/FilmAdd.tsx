@@ -26,7 +26,7 @@ import Decorator from "../decorators/Decorator";
 import { doc, setDoc } from 'firebase/firestore';
 import { v4 as uuidv4 } from 'uuid';
 import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
-import { storage, db } from '../config/firebase';
+import { storage, store } from '../config/firebase';
 import { useNavigate } from "react-router-dom";
 import { Movie } from "../types";
 
@@ -69,7 +69,7 @@ const FilmAdd = () => {
 
   const uploadImage = async (file: File): Promise<string> => {
     return new Promise((resolve, reject) => {
-      const storageRef = ref(storage, `images/${file.name + uuidv4()}`);
+      const storageRef = ref(storage, `movie-images/${file.name + uuidv4()}`);
       const uploadTask = uploadBytesResumable(storageRef, file);
 
       uploadTask.on(
@@ -105,7 +105,7 @@ const FilmAdd = () => {
         genre: data.genre,
       };
 
-      await setDoc(doc(db, 'movies', movieId), movie);
+      await setDoc(doc(store, 'movies', movieId), movie);
       alert('Movie added successfully!');
       navigate("/");
 

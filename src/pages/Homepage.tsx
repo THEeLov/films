@@ -1,14 +1,14 @@
 import { Box, useTheme, Divider } from "@mui/material";
 import { useEffect, useState } from "react";
 import { collection, getDocs } from "firebase/firestore";
-import { db } from "../config/firebase";
+import { store } from "../config/firebase";
 import { Movie } from "../types";
 import MovieCard from "../components/MovieCard";
 
 const Homepage = () => {
   const theme = useTheme();
   const [movieList, setMovieList] = useState<Movie[]>([]);
-  const movieCollectionRef = collection(db, "movies");
+  const movieCollectionRef = collection(store, "movies");
 
   useEffect(() => {
     const getMovies = async () => {
