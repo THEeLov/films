@@ -6,6 +6,7 @@ import { doc, getDoc, serverTimestamp, writeBatch } from "firebase/firestore";
 import { store } from "../config/firebase";
 import { z } from "zod";
 import { useAuth } from "../contexts/AuthProvider";
+import { useEffect } from "react";
 
 type RatingSchema = z.infer<typeof ratingSchema>;
 
@@ -70,7 +71,7 @@ const RatingForm = ({ movieId }: { movieId: string }) => {
     batch.update(movieRef, {
       sumOfRatings: newSumOfRatings,
       totalRatings: newTotalRatings,
-      averageRating: ((newSumOfRatings / newTotalRatings) / 5) * 100,
+      averageRating: (newSumOfRatings / newTotalRatings / 5) * 100,
     });
 
     // Set or update the user's rating in the subcollection
@@ -87,6 +88,28 @@ const RatingForm = ({ movieId }: { movieId: string }) => {
       alert("Failed to update rating. Please try again.");
     }
   };
+
+  useEffect(() => {
+    const fetchUserRating = async () => {
+      if (!currentUser) return;
+
+      try {
+        const userRatingRef = doc(store, `movies/${movieId}/ratings/${currentUser.uid}`);
+        const userRatingSnap = await getDoc(userRatingRef);
+
+        if (userRatingSnap.exists()) {
+          const userRatingData = userRatingSnap.data();
+          if (userRatingData && userRatingData.rating) {
+            setValue("rating", userRatingData.rating);
+          }
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    fetchUserRating();
+  }, [currentUser, movieId, setValue]);
 
   return (
     <Box
