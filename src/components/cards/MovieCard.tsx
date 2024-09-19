@@ -1,5 +1,5 @@
 import { Box, Card, CardMedia, Typography, useTheme } from "@mui/material";
-import { Movie } from "../types";
+import { Movie } from "../../types";
 import { useNavigate } from "react-router-dom";
 
 const MovieCard = ({ movie }: { movie: Movie }) => {

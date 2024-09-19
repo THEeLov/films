@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { collection, getDocs } from "firebase/firestore";
 import { store } from "../config/firebase";
 import { Movie } from "../types";
-import MovieCard from "../components/MovieCard";
+import MovieCard from "../components/cards/MovieCard";
 
 const Homepage = () => {
   const theme = useTheme();
@@ -36,7 +36,7 @@ const Homepage = () => {
       {movieList.map((movie) => (
         <>
           <MovieCard movie={movie} />
-          <Divider variant="middle" />
+          <Divider />
         </>
       ))}
     </Box>

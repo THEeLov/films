@@ -1,16 +1,12 @@
 import { Box, CardContent, Typography, Avatar } from "@mui/material";
+import { Timestamp } from "firebase/firestore";
 import { format } from "date-fns";
 
-const CommentCard = ({ text, date }: { text: string; date: string }) => {
+const CommentCard = ({ text, date }: { text: string; date: Timestamp }) => {
   let formattedDate = "Unknown date";
 
   try {
-    if (date) {
-      const parsedDate = new Date(date);
-      if (!isNaN(parsedDate.getTime())) {
-        formattedDate = format(parsedDate, "MMMM dd, yyyy HH:mm:ss");
-      }
-    }
+      formattedDate = format(date.toDate(), "MMMM dd, yyyy HH:mm");
   } catch (error) {
     console.error("Error formatting date: ", error);
   }

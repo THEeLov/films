@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
 import { collection, onSnapshot, orderBy, query } from "firebase/firestore";
 import { store } from "../config/firebase";
-import CommentCard from "./CommentCard";
+import CommentCard from "./cards/CommentCard";
+import { Box } from "@mui/material";
 
 const Comments = ({ movieId }: { movieId: string }) => {
   const [comments, setComments] = useState<any[]>([]);
@@ -31,28 +32,24 @@ const Comments = ({ movieId }: { movieId: string }) => {
   }, [movieId]);
 
   return (
-    <div>
+    <Box component="div">
       {loading ? (
-        <div>Loading comments...</div>
+        <Box component="div">Loading comments...</Box>
       ) : error ? (
-        <div>{error}</div>
+        <Box component="div">{error}</Box>
       ) : comments && comments.length === 0 ? (
-        <div>No comments yet.</div>
+        <Box component="div">No comments yet.</Box>
       ) : (
         comments &&
         comments.map((comment) => (
           <CommentCard
             key={comment.id}
             text={comment.comment}
-            date={
-              comment.date && comment.date.toDate
-                ? comment.date.toDate().toLocaleString()
-                : "not valid"
-            }
+            date={comment.date}
           />
         ))
       )}
-    </div>
+    </Box>
   );
 };
 

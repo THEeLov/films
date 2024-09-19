@@ -13,7 +13,7 @@ import { store } from "../config/firebase";
 import { useState } from "react";
 import { AccountCircle } from "@mui/icons-material";
 import { addTextFieldCommentStyle } from "../theme";
-import { addDoc, collection, Timestamp } from "firebase/firestore";
+import { addDoc, collection, serverTimestamp } from "firebase/firestore";
 
 type CommentSchema = z.infer<typeof commentSchema>;
 
@@ -36,7 +36,7 @@ const CommentForm = ({ movieId }: { movieId: string }) => {
       const commentsRef = collection(store, `movies/${movieId}/comments`);
       await addDoc(commentsRef, {
         comment: data.comment,
-        date: Timestamp.fromDate(new Date()),
+        date: serverTimestamp(),
       });
       
       reset();
