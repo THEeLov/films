@@ -104,7 +104,7 @@ const FilmView = () => {
                   />
                   <SecondaryText
                     label="Rating"
-                    value={movie.totalRatings === 0 ? "- - -" : (movie.averageRating).toString() + " %"}
+                    value={movie.totalRatings === 0 ? "- - -" : (movie.averageRating.toFixed(2)).toString() + " %"}
                   />
                   <SecondaryText
                     label="Description"

@@ -91,7 +91,7 @@ const MovieCard = ({ movie }: { movie: Movie }) => {
             whiteSpace: "nowrap",
           }}
         >
-          {movie.totalRatings === 0 ? "---%" : `${movie.averageRating}%`}
+          {movie.totalRatings === 0 ? "---%" : `${movie.averageRating.toFixed(2)}%`}
         </Typography>
       </Box>
     </Card>

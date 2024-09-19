@@ -17,7 +17,6 @@ import z from "zod";
 import { useState } from "react";
 import DriveFileRenameOutlineIcon from "@mui/icons-material/DriveFileRenameOutline";
 import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
-import StarHalfIcon from "@mui/icons-material/StarHalf";
 import DescriptionIcon from "@mui/icons-material/Description";
 import ImageIcon from "@mui/icons-material/Image";
 import { addTextFieldStyle } from "../theme";
