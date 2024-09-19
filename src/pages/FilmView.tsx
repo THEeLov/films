@@ -8,6 +8,7 @@ import Grid from "@mui/material/Grid2";
 import SecondaryText from "../components/SecondaryText";
 import CommentForm from "../forms/CommentForm";
 import Comments from "../components/Comments";
+import RatingForm from "../forms/RatingForm";
 
 const FilmView = () => {
   const theme = useTheme();
@@ -112,17 +113,26 @@ const FilmView = () => {
                 </Box>
               </Grid>
 
-              {/* Comment Section Below */}
+              {/* Rating form */}
+              <Grid size={12} marginTop="1rem">
+                <Box width="90%">
+                   <b>Rate this film:</b>
+                  <RatingForm movieId={movie.id} />
+                </Box>
+              </Grid>
+              {/* Comment form */}
               <Grid size={12} marginTop="6rem">
                 <Box width="90%">
                   <CommentForm movieId={movie.id} />
                 </Box>
               </Grid>
             </Grid>
+
+            {/* Comment Section Below */}
             <Box width="100%" marginTop="1rem">
-                <b>Commmets</b>
-                <Comments movieId={movie.id} />
-              </Box>
+              <b>Commmets</b>
+              <Comments movieId={movie.id} />
+            </Box>
           </Box>
         </>
       )}

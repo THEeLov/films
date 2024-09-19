@@ -1,5 +1,13 @@
 import z from "zod";
 
+export const commentSchema = z.object({
+  comment: z.string().min(1)
+});
+
+export const ratingSchema = z.object({
+  rating: z.coerce.number().min(1, "Min value is 1").max(5, "Max value is 5")
+})
+
 const MAX_FILE_SIZE = 5000000
 const ACCEPTED_IMAGE_TYPES = ["image/jpeg", "image/jpg", "image/png", "image/webp"]
 

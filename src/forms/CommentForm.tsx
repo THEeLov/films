@@ -5,15 +5,16 @@ import {
   InputAdornment,
   useTheme,
 } from "@mui/material";
-import { commentSchema } from "../validationSchemas/commentForm";
+import { commentSchema } from "../validationSchemas/movieForms";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import z from "zod";
 import { store } from "../config/firebase";
 import { useState } from "react";
-import { AccountCircle } from "@mui/icons-material";
+import CommentIcon from "@mui/icons-material/Comment";
 import { addTextFieldCommentStyle } from "../theme";
 import { addDoc, collection, serverTimestamp } from "firebase/firestore";
+import { useAuth } from "../contexts/AuthProvider"
 
 type CommentSchema = z.infer<typeof commentSchema>;
 
@@ -38,11 +39,11 @@ const CommentForm = ({ movieId }: { movieId: string }) => {
         comment: data.comment,
         date: serverTimestamp(),
       });
-      
+
       reset();
     } catch (error) {
       console.error("Error adding comment: ", error);
-      alert('Failed to add comment. Please try again.');
+      alert("Failed to add comment. Please try again.");
     } finally {
       setLoading(false);
     }
@@ -65,13 +66,13 @@ const CommentForm = ({ movieId }: { movieId: string }) => {
           input: {
             startAdornment: (
               <InputAdornment position="start">
-                <AccountCircle />
+                <CommentIcon sx={{color: theme.palette.secondary.main}}/>
               </InputAdornment>
             ),
           },
         }}
         variant="standard"
-        sx={{...addTextFieldCommentStyle}}
+        sx={{ ...addTextFieldCommentStyle }}
       />
 
       <Box display="flex" gap="1rem" justifyContent="end">
@@ -87,7 +88,7 @@ const CommentForm = ({ movieId }: { movieId: string }) => {
         >
           Comment
         </Button>
-        <Button type="reset" onClick={() => reset()} variant="contained">
+        <Button variant="contained" type="reset" onClick={() => reset()}>
           Cancel
         </Button>
       </Box>

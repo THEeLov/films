@@ -10,7 +10,7 @@ import {
   Checkbox,
   useTheme,
 } from "@mui/material";
-import { movieCreateSchema } from "../validationSchemas/movieCreate";
+import { movieCreateSchema } from "../validationSchemas/movieForms";
 import { Controller, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import z from "zod";
