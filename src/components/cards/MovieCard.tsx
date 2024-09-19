@@ -91,7 +91,13 @@ const MovieCard = ({ movie }: { movie: Movie }) => {
             whiteSpace: "nowrap",
           }}
         >
-          {movie.totalRatings === 0 ? "---%" : `${movie.averageRating.toFixed(2)}%`}
+          {movie.totalRatings === 0
+            ? "---%"
+            : `${
+                Number.isInteger(movie.averageRating)
+                  ? movie.averageRating
+                  : movie.averageRating.toFixed(2)
+              }%`}
         </Typography>
       </Box>
     </Card>

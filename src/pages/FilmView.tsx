@@ -104,7 +104,15 @@ const FilmView = () => {
                   />
                   <SecondaryText
                     label="Rating"
-                    value={movie.totalRatings === 0 ? "- - -" : (movie.averageRating.toFixed(2)).toString() + " %"}
+                    value={
+                      movie.totalRatings === 0
+                        ? "- - -"
+                        : `${
+                            Number.isInteger(movie.averageRating)
+                              ? movie.averageRating
+                              : movie.averageRating.toFixed(2)
+                          }%`
+                    }
                   />
                   <SecondaryText
                     label="Description"
@@ -116,7 +124,7 @@ const FilmView = () => {
               {/* Rating form */}
               <Grid size={12} marginTop="1rem">
                 <Box width="90%">
-                   <b>Rate this film:</b>
+                  <b>Rate this film:</b>
                   <RatingForm movieId={movie.id} />
                 </Box>
               </Grid>
