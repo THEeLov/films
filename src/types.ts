@@ -4,7 +4,9 @@ export type Movie = {
   description: string;
   name: string;
   imageUrl: string;
-  rating: number;
+  sumOfRatings: number,
+  totalRatings: number,
+  averageRating: number,
   releaseDate: number;
   genre: Array<string>;
 }

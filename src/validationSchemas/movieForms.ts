@@ -5,7 +5,7 @@ export const commentSchema = z.object({
 });
 
 export const ratingSchema = z.object({
-  rating: z.coerce.number().min(1, "Min value is 1").max(5, "Max value is 5")
+  rating: z.coerce.number().min(0.1).max(5, "Max value is 5")
 })
 
 const MAX_FILE_SIZE = 5000000
@@ -24,5 +24,4 @@ export const movieCreateSchema = z.object({
       (files) => ACCEPTED_IMAGE_TYPES.includes(files?.[0]?.type),
       "Only .jpg, .jpeg, .png and .webp formats are supported.",
   ),
-  rating: z.coerce.number().min(1, "Rating is required").max(5, "Rating must be between 1 and 5"),
 });

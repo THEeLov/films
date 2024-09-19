@@ -17,7 +17,7 @@ const MovieCard = ({ movie }: { movie: Movie }) => {
           transform: "scale(0.995)",
         },
       }}
-      onClick={() => navigate(`/film/${movie.id}`)} 
+      onClick={() => navigate(`/film/${movie.id}`)}
     >
       <CardMedia
         component="img"
@@ -36,7 +36,14 @@ const MovieCard = ({ movie }: { movie: Movie }) => {
           overflow: "hidden",
         }}
       >
-        <Box sx={{ flex: 1, display: "flex", flexDirection: "column", overflow: "hidden" }}>
+        <Box
+          sx={{
+            flex: 1,
+            display: "flex",
+            flexDirection: "column",
+            overflow: "hidden",
+          }}
+        >
           <Typography
             component="h3"
             variant="h4"
@@ -84,7 +91,7 @@ const MovieCard = ({ movie }: { movie: Movie }) => {
             whiteSpace: "nowrap",
           }}
         >
-          {(movie.rating / 5) * 100}%{" "}
+          {movie.totalRatings === 0 ? "---%" : `${movie.averageRating}%`}
         </Typography>
       </Box>
     </Card>

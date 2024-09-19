@@ -96,7 +96,7 @@ const FilmView = () => {
                   </Typography>
                   <SecondaryText
                     label="Release Date"
-                    value={movie.releaseDate}
+                    value={movie.releaseDate.toString()}
                   />
                   <SecondaryText
                     label="Genres"
@@ -104,7 +104,7 @@ const FilmView = () => {
                   />
                   <SecondaryText
                     label="Rating"
-                    value={((movie.rating / 5) * 100).toString() + "%"}
+                    value={movie.totalRatings === 0 ? "- - -" : (movie.averageRating).toString() + " %"}
                   />
                   <SecondaryText
                     label="Description"

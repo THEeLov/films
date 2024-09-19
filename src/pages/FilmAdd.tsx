@@ -100,7 +100,9 @@ const FilmAdd = () => {
         description: data.description,
         name: data.title,
         imageUrl: imageUrl,
-        rating: data.rating,
+        sumOfRatings: 0,
+        totalRatings: 0,
+        averageRating: 0,      
         releaseDate: data.releaseDate,
         genre: data.genre,
       };
@@ -199,28 +201,7 @@ const FilmAdd = () => {
           }}
           sx={addTextFieldStyle}
         />
-        <TextField
-          label="Rating"
-          variant="filled"
-          type="number"
-          {...register("rating")}
-          error={!!errors.rating}
-          helperText={errors.rating?.message}
-          slotProps={{
-            input: {
-              startAdornment: (
-                <InputAdornment position="start">
-                  <StarHalfIcon />
-                </InputAdornment>
-              ),
-              inputProps: {
-                min: 1,
-                max: 5,
-              },
-            },
-          }}
-          sx={addTextFieldStyle}
-        />
+        
         <TextField
           label="Description"
           variant="filled"

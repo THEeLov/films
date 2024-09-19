@@ -14,7 +14,6 @@ import { useState } from "react";
 import CommentIcon from "@mui/icons-material/Comment";
 import { addTextFieldCommentStyle } from "../theme";
 import { addDoc, collection, serverTimestamp } from "firebase/firestore";
-import { useAuth } from "../contexts/AuthProvider"
 
 type CommentSchema = z.infer<typeof commentSchema>;
 
