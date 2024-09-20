@@ -1,27 +1,19 @@
-import { useEffect, useState } from "react";
 import { Movie } from "../types";
-import { collection, getDocs } from "firebase/firestore";
-import { store } from "../config/firebase";
+import { useQuery } from "@tanstack/react-query";
+import { getFilms, getFilm } from "../api/filmsApi";
+
+export const useFilm = (movieId: string | undefined) => {
+  return useQuery<Movie, Error>({
+    queryKey: ["movie", movieId],
+    queryFn: () => getFilm(movieId!),
+    enabled: !!movieId,
+    retry: 1,
+  });
+};
 
 export const useFilms = () => {
-  const [movieList, setMovieList] = useState<Movie[]>([]);
-  const movieCollectionRef = collection(store, "movies");
-
-  useEffect(() => {
-    const getMovies = async () => {
-      try {
-        const data = await getDocs(movieCollectionRef);
-        const filteredData = data.docs.map((doc) => ({
-          ...doc.data(),
-          id: doc.id,
-        })) as Movie[];
-        setMovieList(filteredData);
-      } catch (err) {
-        console.log(err);
-      }
-    };
-    getMovies();
-  }, []);
-
-  return { movieList };
+  return useQuery<Movie[], Error>({
+    queryKey: ["movies"],
+    queryFn: getFilms,
+  });
 };

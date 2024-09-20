@@ -1,18 +1,24 @@
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { CircularProgress, Box, useTheme, Typography } from "@mui/material";
 import Grid from "@mui/material/Grid2";
 import SecondaryText from "../components/SecondaryText";
 import CommentForm from "../forms/CommentForm";
 import Comments from "../components/Comments";
 import RatingForm from "../forms/RatingForm";
-import { useFilm } from "../hooks/useFilm";
+import { useFilm } from "../hooks/useFilms";
 
 const FilmView = () => {
   const theme = useTheme();
+  const navigate = useNavigate();
 
   // Get movie id from the URL params and fetch with custom hook
   const { id } = useParams<{ id: string }>();
-  const { movie, loading, error } = useFilm(id);
+  const { data: movie, isLoading, error } = useFilm(id);
+
+  // User try to go to film that doesnt exist
+  if (error) {
+    navigate("/");
+  }
 
   return (
     <Box
@@ -30,9 +36,7 @@ const FilmView = () => {
         gap: "3rem",
       }}
     >
-      {loading && <CircularProgress color="error" />}
-
-      {error && <>{error}</>}
+      {isLoading && <CircularProgress color="error" />}
 
       {movie && (
         <>
