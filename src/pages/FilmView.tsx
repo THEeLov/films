@@ -1,50 +1,18 @@
 import { useParams } from "react-router-dom";
-import { store } from "../config/firebase";
-import { useEffect, useState } from "react";
-import { Movie } from "../types";
-import { doc, getDoc } from "firebase/firestore";
 import { CircularProgress, Box, useTheme, Typography } from "@mui/material";
 import Grid from "@mui/material/Grid2";
 import SecondaryText from "../components/SecondaryText";
 import CommentForm from "../forms/CommentForm";
 import Comments from "../components/Comments";
 import RatingForm from "../forms/RatingForm";
+import { useFilm } from "../hooks/useFilm";
 
 const FilmView = () => {
   const theme = useTheme();
+
+  // Get movie id from the URL params and fetch with custom hook
   const { id } = useParams<{ id: string }>();
-
-  const [movie, setMovie] = useState<Movie | null>(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-
-  useEffect(() => {
-    const fetchFilm = async () => {
-      if (!id) {
-        setError("Invalid Film ID");
-        setLoading(false);
-        return;
-      }
-
-      try {
-        const docRef = doc(store, "movies", id);
-        const docSnap = await getDoc(docRef);
-
-        if (docSnap.exists()) {
-          const movieData = docSnap.data() as Movie;
-          setMovie({ ...movieData, id: docSnap.id });
-        } else {
-          setError("Film not found");
-        }
-      } catch (err) {
-        setError("Failed to retrieve film data");
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchFilm();
-  }, [id]);
+  const { movie, loading, error } = useFilm(id);
 
   return (
     <Box
