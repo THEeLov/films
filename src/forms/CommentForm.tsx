@@ -9,11 +9,10 @@ import { commentSchema } from "../validationSchemas/movieForms";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import z from "zod";
-import { store } from "../config/firebase";
 import { useState } from "react";
 import CommentIcon from "@mui/icons-material/Comment";
 import { addTextFieldCommentStyle } from "../theme";
-import { addDoc, collection, serverTimestamp } from "firebase/firestore";
+import { addComment } from "../services/commentService";
 
 type CommentSchema = z.infer<typeof commentSchema>;
 
@@ -21,27 +20,16 @@ const CommentForm = ({ movieId }: { movieId: string }) => {
   const [loading, setLoading] = useState(false);
   const theme = useTheme();
 
-  const {
-    register,
-    handleSubmit,
-    reset,
-    formState: {},
-  } = useForm<CommentSchema>({
+  const { register, handleSubmit, reset } = useForm<CommentSchema>({
     resolver: zodResolver(commentSchema),
   });
 
   const onSubmit = async (data: CommentSchema) => {
     setLoading(true);
     try {
-      const commentsRef = collection(store, `movies/${movieId}/comments`);
-      await addDoc(commentsRef, {
-        comment: data.comment,
-        date: serverTimestamp(),
-      });
-
+      await addComment(movieId, data.comment);
       reset();
     } catch (error) {
-      console.error("Error adding comment: ", error);
       alert("Failed to add comment. Please try again.");
     } finally {
       setLoading(false);
@@ -65,7 +53,7 @@ const CommentForm = ({ movieId }: { movieId: string }) => {
           input: {
             startAdornment: (
               <InputAdornment position="start">
-                <CommentIcon sx={{color: theme.palette.secondary.main}}/>
+                <CommentIcon sx={{ color: theme.palette.secondary.main }} />
               </InputAdornment>
             ),
           },
