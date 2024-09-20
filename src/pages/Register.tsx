@@ -8,6 +8,7 @@ import {
   CardContent,
   Button,
   Alert,
+  CircularProgress,
 } from "@mui/material";
 import { registerSchema } from "../validationSchemas/authForms";
 import { useForm } from "react-hook-form";
@@ -26,7 +27,7 @@ const Register = () => {
     register,
     handleSubmit,
     setError,
-    formState: { errors },
+    formState: { errors, isSubmitting },
   } = useForm<RegisterSchema>({
     resolver: zodResolver(registerSchema),
   });
@@ -74,7 +75,7 @@ const Register = () => {
           backgroundColor: theme.palette.secondary.main,
           width: "min-content",
           height: "max-content",
-          boxShadow: 10
+          boxShadow: 10,
         }}
       >
         <CardHeader
@@ -122,13 +123,18 @@ const Register = () => {
             </Alert>
           )}
 
-          <Button
-            type="submit"
-            variant="contained"
-            onClick={handleSubmit(onSubmit)}
-          >
-            SIGN UP
-          </Button>
+          {isSubmitting ? (
+            <CircularProgress color="secondary" />
+          ) : (
+            <Button
+              type="submit"
+              variant="contained"
+              onClick={handleSubmit(onSubmit)}
+            >
+              SIGN UP
+            </Button>
+          )
+          }
           <Typography variant="body2" align="center" sx={{ mt: 2 }}>
             Already have an account ?{" "}
             <Typography

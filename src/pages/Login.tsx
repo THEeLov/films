@@ -17,20 +17,16 @@ import z from "zod";
 import { Link, useNavigate } from "react-router-dom";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../config/firebase";
-import { useState } from "react";
 import Decorator from "../decorators/Decorator";
 
 type LoginSchema = z.infer<typeof loginSchema>;
 
 const Login = () => {
-  const [loading, setLoading] = useState(false);
-
-
   const {
     register,
     handleSubmit,
     setError,
-    formState: { errors },
+    formState: { errors, isSubmitting },
   } = useForm<LoginSchema>({
     resolver: zodResolver(loginSchema),
   });
@@ -39,14 +35,11 @@ const Login = () => {
   const navigate = useNavigate();
 
   const onSubmit = async (data: LoginSchema) => {
-    setLoading(true);
     try {
       await signInWithEmailAndPassword(auth, data.email, data.password);
       navigate("/");
     } catch (err) {
       setError("root", { message: "Incorrect username or password" });
-    } finally {
-      setLoading(false);
     }
   };
 
@@ -73,7 +66,7 @@ const Login = () => {
           backgroundColor: theme.palette.secondary.main,
           width: "min-content",
           height: "max-content",
-          boxShadow: 10
+          boxShadow: 10,
         }}
       >
         <CardHeader
@@ -113,13 +106,18 @@ const Login = () => {
             </Alert>
           )}
 
-          <Button
-            type="submit"
-            variant="contained"
-            onClick={handleSubmit(onSubmit)}
-          >
-            {loading ? <CircularProgress color="secondary" /> : "SIGN IN"}
-          </Button>
+          {isSubmitting ? (
+            <CircularProgress color="secondary" />
+          ) : (
+            <Button
+              type="submit"
+              variant="contained"
+              onClick={handleSubmit(onSubmit)}
+            >
+              SIGN IN
+            </Button>
+          )}
+
           <Typography variant="body2" align="center" sx={{ mt: 2 }}>
             Don’t have an account?{" "}
             <Typography
