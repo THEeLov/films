@@ -93,11 +93,7 @@ const MovieCard = ({ movie }: { movie: Movie }) => {
         >
           {movie.totalRatings === 0
             ? "---%"
-            : `${
-                Number.isInteger(movie.averageRating)
-                  ? movie.averageRating
-                  : movie.averageRating.toFixed(2)
-              }%`}
+            : `${Math.round(movie.averageRating)}%`}
         </Typography>
       </Box>
     </Card>
