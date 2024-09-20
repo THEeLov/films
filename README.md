@@ -1,50 +1,27 @@
-# React + TypeScript + Vite
+# 🎬 Films
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+**Films** is a web application for small groups of film enthusiasts to share and discuss movies. Users can sign in, add films, rate them, and leave comments for discussions. The ratings from all users are averaged to provide a collective rating for each film.
 
-Currently, two official plugins are available:
+## 🌐 Live Demo
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+Check out the live version of the project here: [Film Database](https://films-aed2d.web.app/)
 
-## Expanding the ESLint configuration
+## 🛠️ Features
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+- **User Authentication:** Users must sign in to add, rate, or comment on films.
+- **Add Films:** Authenticated users can contribute films to the database.
+- **Rate Films:** Users can rate any film, with average ratings calculated from all users' input.
+- **Comment System:** Engage in discussions by leaving comments on films.
+- **View Ratings:** Display average ratings for each film, reflecting all users' opinions.
 
-- Configure the top-level `parserOptions` property like this:
+## 🧑‍💻 Technologies Used
 
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
-```
+- **Frontend:** React.js
+- **Backend:** Firebase for Authentication and Database
+- **Deployment:** Firebase Hosting
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
+## ✨ Key Features
 
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
-
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
-```
+- **Authentication:** Powered by Firebase.
+- **Real-time Database:** Stores films, ratings, and comments.
+- **Responsive Design:** Works on both desktop and mobile devices.

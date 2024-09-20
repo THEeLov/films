@@ -11,9 +11,8 @@ const firebaseConfig = {
   storageBucket: "films-aed2d.appspot.com",
   messagingSenderId: "928663154226",
   appId: "1:928663154226:web:97cf83824668d47873d62b",
-  measurementId: "G-CDZ4Q5RKZQ"
+  measurementId: "G-CDZ4Q5RKZQ",
 };
-
 
 const app = initializeApp(firebaseConfig);
 // const analytics = getAnalytics(app);

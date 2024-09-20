@@ -22,13 +22,12 @@ import ImageIcon from "@mui/icons-material/Image";
 import { addTextFieldStyle } from "../theme";
 import { addCheckboxStyle } from "../theme";
 import Decorator from "../decorators/Decorator";
-import { doc, setDoc } from 'firebase/firestore';
-import { v4 as uuidv4 } from 'uuid';
+import { doc, setDoc } from "firebase/firestore";
+import { v4 as uuidv4 } from "uuid";
 import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
-import { storage, store } from '../config/firebase';
+import { storage, store } from "../config/firebase";
 import { useNavigate } from "react-router-dom";
 import { Movie } from "../types";
-
 
 type MovieCreateSchema = z.infer<typeof movieCreateSchema>;
 
@@ -72,20 +71,20 @@ const FilmAdd = () => {
       const uploadTask = uploadBytesResumable(storageRef, file);
 
       uploadTask.on(
-        'state_changed',
+        "state_changed",
         () => {},
         (error) => reject(error),
         () => {
           getDownloadURL(uploadTask.snapshot.ref).then(resolve).catch(reject);
-        }
+        },
       );
     });
   };
-  
+
   const onSubmit = async (data: MovieCreateSchema) => {
     setLoading(true);
     try {
-      let imageUrl = '';
+      let imageUrl = "";
 
       if (data.image && data.image.length > 0) {
         const file = data.image[0];
@@ -94,24 +93,23 @@ const FilmAdd = () => {
 
       const movieId = uuidv4();
 
-      const movie: Omit<Movie, 'id'> = {
+      const movie: Omit<Movie, "id"> = {
         title: data.title,
         description: data.description,
         name: data.title,
         imageUrl: imageUrl,
         sumOfRatings: 0,
         totalRatings: 0,
-        averageRating: 0,      
+        averageRating: 0,
         releaseDate: data.releaseDate,
         genre: data.genre,
       };
 
-      await setDoc(doc(store, 'movies', movieId), movie);
-      alert('Movie added successfully!');
+      await setDoc(doc(store, "movies", movieId), movie);
+      alert("Movie added successfully!");
       navigate("/");
-
     } catch (error) {
-      alert('Something went wrong we are sorry!');
+      alert("Something went wrong we are sorry!");
     } finally {
       setLoading(false);
     }
@@ -200,7 +198,7 @@ const FilmAdd = () => {
           }}
           sx={addTextFieldStyle}
         />
-        
+
         <TextField
           label="Description"
           variant="filled"

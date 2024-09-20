@@ -1,6 +1,6 @@
 import { Typography } from "@mui/material";
 
-const SecondaryText = ({ label, value }: {label: string, value: string}) => {
+const SecondaryText = ({ label, value }: { label: string; value: string }) => {
   return (
     <Typography
       component="h3"

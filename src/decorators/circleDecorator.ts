@@ -4,7 +4,7 @@ const baseCircle = {
   position: "absolute",
   display: {
     xs: "none",
-    sm: "block", 
+    sm: "block",
   },
   zIndex: 0,
 };

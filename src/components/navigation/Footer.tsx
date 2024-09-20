@@ -24,7 +24,7 @@ const Footer = () => {
         alignItems: "center",
         justifyContent: "center",
         textAlign: "center",
-        color: theme.palette.secondary.main
+        color: theme.palette.secondary.main,
       }}
     >
       <Divider
@@ -74,9 +74,7 @@ const Footer = () => {
         </IconButton>
       </Box>
 
-      <Typography variant="body2">
-        Designed and Developed by Filip
-      </Typography>
+      <Typography variant="body2">Designed and Developed by Filip</Typography>
     </Box>
   );
 };

@@ -6,7 +6,7 @@ const CommentCard = ({ text, date }: { text: string; date: Timestamp }) => {
   let formattedDate = "Unknown date";
 
   try {
-      formattedDate = format(date.toDate(), "MMMM dd, yyyy HH:mm");
+    formattedDate = format(date.toDate(), "MMMM dd, yyyy HH:mm");
   } catch (error) {
     console.error("Error formatting date: ", error);
   }

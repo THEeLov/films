@@ -89,7 +89,9 @@ const Navbar = () => {
               open={Boolean(anchorEl)}
               onClose={handleClose}
             >
-              <MenuItem onClick={() => navigate(`/film-add`)}>Add Film</MenuItem>
+              <MenuItem onClick={() => navigate(`/film-add`)}>
+                Add Film
+              </MenuItem>
               <MenuItem onClick={handleSignOut}>Sign Out</MenuItem>
             </Menu>
           </>

@@ -7,7 +7,11 @@ import { store } from "../config/firebase";
  * @param userId - The ID of the user submitting the rating.
  * @param rating - The rating value (e.g., 1-5 stars).
  */
-export const submitRating = async (movieId: string, userId: string, rating: number) => {
+export const submitRating = async (
+  movieId: string,
+  userId: string,
+  rating: number,
+) => {
   const movieRef = doc(store, `movies/${movieId}`);
   const userRatingRef = doc(store, `movies/${movieId}/ratings/${userId}`);
   const movieSnapshot = await getDoc(movieRef);

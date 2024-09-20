@@ -11,7 +11,7 @@ const Decorator = () => {
           top: "50%",
           left: "-150px",
           transform: "translateY(-50%)",
-          filter: "blur(100px)"
+          filter: "blur(100px)",
         }}
       ></Box>
       <Box
@@ -21,7 +21,7 @@ const Decorator = () => {
           top: "50%",
           right: "-150px",
           transform: "translateY(-50%)",
-          filter: "blur(100px)"
+          filter: "blur(100px)",
         }}
       ></Box>
     </>

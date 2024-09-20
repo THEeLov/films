@@ -50,6 +50,4 @@ export const useFilmComments = (movieId: string) => {
   }, [movieId]);
 
   return { comments, loading, error };
-
-  
-}
+};

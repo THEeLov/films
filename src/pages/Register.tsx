@@ -133,8 +133,7 @@ const Register = () => {
             >
               SIGN UP
             </Button>
-          )
-          }
+          )}
           <Typography variant="body2" align="center" sx={{ mt: 2 }}>
             Already have an account ?{" "}
             <Typography
