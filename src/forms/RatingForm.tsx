@@ -33,7 +33,8 @@ const RatingForm = ({ movieId }: { movieId: string }) => {
 
   const onSubmit = async (data: RatingSchema) => {
     if (currentUser === null) {
-      alert("Please sign in before rating.");
+      setValue("rating", 0);
+      alert("Please sign in to rate a movie.");
       return;
     }
 

@@ -7,15 +7,17 @@ import {
   CardHeader,
   CardContent,
   Button,
+  Alert,
 } from "@mui/material";
 import { registerSchema } from "../validationSchemas/authForms";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import z from "zod";
 import { Link, useNavigate } from "react-router-dom";
-import { createUserWithEmailAndPassword } from "firebase/auth";
+import { AuthErrorCodes, createUserWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../config/firebase";
 import Decorator from "../decorators/Decorator";
+import { FirebaseError } from "firebase/app";
 
 type RegisterSchema = z.infer<typeof registerSchema>;
 
@@ -23,6 +25,7 @@ const Register = () => {
   const {
     register,
     handleSubmit,
+    setError,
     formState: { errors },
   } = useForm<RegisterSchema>({
     resolver: zodResolver(registerSchema),
@@ -35,7 +38,17 @@ const Register = () => {
     try {
       await createUserWithEmailAndPassword(auth, data.email, data.password);
       navigate("/");
-    } catch (err) {}
+    } catch (err) {
+      if (!(err instanceof FirebaseError)) {
+        alert("Something went wrong. Please try again later.");
+        return;
+      }
+
+      const errorCode = err.code;
+      if (errorCode === AuthErrorCodes.EMAIL_EXISTS) {
+        setError("root", { message: "This email is already in use." });
+      }
+    }
   };
 
   return (
@@ -61,6 +74,7 @@ const Register = () => {
           backgroundColor: theme.palette.secondary.main,
           width: "min-content",
           height: "max-content",
+          boxShadow: 10
         }}
       >
         <CardHeader
@@ -103,9 +117,11 @@ const Register = () => {
           />
 
           {errors.root && (
-            <div style={{ color: "black" }}> {errors.root.message}</div>
+            <Alert severity="error" style={{ marginTop: "1rem" }}>
+              {errors.root.message}
+            </Alert>
           )}
-          {/* Display error message */}
+
           <Button
             type="submit"
             variant="contained"

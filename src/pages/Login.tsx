@@ -73,6 +73,7 @@ const Login = () => {
           backgroundColor: theme.palette.secondary.main,
           width: "min-content",
           height: "max-content",
+          boxShadow: 10
         }}
       >
         <CardHeader
