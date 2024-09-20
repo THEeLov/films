@@ -2,7 +2,7 @@ import { collection, doc, getDoc, getDocs } from "firebase/firestore";
 import { Movie } from "../types";
 import { store } from "../config/firebase";
 
-export const getFilm = async (movieId: string): Promise<Movie> =>  {
+export const getFilm = async (movieId: string): Promise<Movie> => {
   const docRef = doc(store, "movies", movieId);
   const docSnap = await getDoc(docRef);
 
@@ -12,7 +12,7 @@ export const getFilm = async (movieId: string): Promise<Movie> =>  {
   } else {
     throw new Error();
   }
-}
+};
 
 export const getFilms = async (): Promise<Movie[]> => {
   const movieCollectionRef = collection(store, "movies");
@@ -21,4 +21,4 @@ export const getFilms = async (): Promise<Movie[]> => {
     ...doc.data(),
     id: doc.id,
   })) as Movie[];
-}
+};

@@ -4,14 +4,14 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { ratingSchema } from "../validationSchemas/movieForms";
 import { z } from "zod";
 import { useAuth } from "../contexts/AuthProvider";
-import { useUserRating } from "../hooks/useUserRating";
+import { useUserRating } from "../hooks/useUser";
 import { submitRating } from "../services/ratingService";
 
 type RatingSchema = z.infer<typeof ratingSchema>;
 
 const RatingForm = ({ movieId }: { movieId: string }) => {
   const { currentUser } = useAuth();
-  const { userRating } = useUserRating(movieId, currentUser);
+  const { data: userRating = 0 } = useUserRating(movieId, currentUser);
 
   const {
     handleSubmit,
