@@ -58,6 +58,7 @@ export const posteUserCreate = async (userData: RegisterSchema) => {
   const user = userCredential.user;
 
   await setDoc(doc(store, "users", user.uid), {
+    id: user.uid,
     displayName: "",
     email: user.email,
     profilePicUrl: "",
