@@ -60,7 +60,7 @@ export const getFilms = async (): Promise<Movie[]> => {
  */
 export const postFilmComment = async (
   movieId: string,
-  comment: string
+  comment: string,
 ): Promise<void> => {
   try {
     const commentsRef = collection(store, `movies/${movieId}/comments`);
@@ -83,7 +83,7 @@ export const postFilmComment = async (
 export const postFilmRating = async (
   movieId: string,
   userId: string,
-  rating: number
+  rating: number,
 ) => {
   const movieRef = doc(store, `movies/${movieId}`);
   const userRatingRef = doc(store, `movies/${movieId}/ratings/${userId}`);
@@ -147,7 +147,7 @@ export const postFilmImage = async (file: File): Promise<string> => {
       (error) => reject(error),
       () => {
         getDownloadURL(uploadTask.snapshot.ref).then(resolve).catch(reject);
-      }
+      },
     );
   });
 };
@@ -160,7 +160,7 @@ export const postFilmImage = async (file: File): Promise<string> => {
  * @throws Will throw an error if the creation fails.
  */
 export const postFilmCreate = async (
-  data: MovieCreateSchema
+  data: MovieCreateSchema,
 ): Promise<void> => {
   let imageUrl = "";
 

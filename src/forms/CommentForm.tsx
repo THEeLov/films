@@ -28,8 +28,7 @@ const CommentForm = ({ movieId }: { movieId: string }) => {
     try {
       await addComment(data.comment);
       reset();
-    }
-    catch (error) {
+    } catch (error) {
       console.error("Error adding comment:", error);
     }
   };
