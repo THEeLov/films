@@ -38,6 +38,7 @@ const UserProfile = () => {
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
+        justifyContent: "center",
         padding: 2,
         backgroundColor: theme.palette.primary.main,
       }}
@@ -77,7 +78,7 @@ const UserProfile = () => {
           You didn't rate any films.
         </Typography>
       ) : (
-        <Box display="flex" gap="2rem" >
+        <Box display="flex" gap="2rem" flexWrap="wrap" maxWidth="1024px">
           {usersRatedFilms &&
             usersRatedFilms.map((movie) => (
                 <UserMovieCard movie={movie} />
