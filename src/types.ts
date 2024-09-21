@@ -16,6 +16,8 @@ export type Movie = {
   genre: Array<string>;
 };
 
+export type MovieWithRating = Movie & Rating;
+
 export type Comment = {
   id: string;
   comment: string;
@@ -29,6 +31,12 @@ export type UserInfo = {
   profilePicUrl: string;
   createdAt: Timestamp;
   updatedAt: Timestamp;
+}
+
+export type Rating = {
+  movieId: string;
+  rating: number;
+  ratedAt: Timestamp;
 }
 
 export type MovieCreateSchema = z.infer<typeof movieCreateSchema>;

@@ -8,7 +8,7 @@ import {
   setDoc,
   writeBatch,
 } from "firebase/firestore";
-import { Movie } from "../types";
+import { Movie, Rating, MovieWithRating } from "../types";
 import { storage, store } from "../config/firebase";
 import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
 import { v4 as uuidv4 } from "uuid";
@@ -49,6 +49,42 @@ export const getFilms = async (): Promise<Movie[]> => {
   })) as Movie[];
 };
 
+export const getUserRatings = async (userId: string): Promise<Rating[]> => {
+  const ratingsRef = collection(store, `user_ratings/${userId}/ratings`);
+  const ratingsSnapshot = await getDocs(ratingsRef);
+
+  return ratingsSnapshot.docs.map((doc) => ({
+    ...doc.data(),
+  })) as Rating[];
+};
+
+export const getFilmsByUserRatings = async (userId: string): Promise<MovieWithRating[]> => {
+  const userRatings = await getUserRatings(userId);
+
+  const moviePromises = userRatings.map(async (rating: Rating) => {
+    const movieRef = doc(store, `movies/${rating.movieId}`);
+    const movieSnapshot = await getDoc(movieRef);
+    
+    if (movieSnapshot.exists()) {
+      const movieData = movieSnapshot.data() as Movie;
+      
+      return {
+        ...movieData,
+        movieId: rating.movieId,
+        rating: rating.rating,
+        ratedAt: rating.ratedAt,
+      } as MovieWithRating;
+    }
+
+    return null;
+  });
+
+  const movies = await Promise.all(moviePromises);
+
+  // Filter out any undefined results (in case a movie no longer exists)
+  return movies.filter((movie): movie is MovieWithRating => movie !== null);
+};
+
 /**
  * Add a comment to a specific movie's comment subcollection in Firestore.
  *
@@ -60,7 +96,7 @@ export const getFilms = async (): Promise<Movie[]> => {
  */
 export const postFilmComment = async (
   movieId: string,
-  comment: string,
+  comment: string
 ): Promise<void> => {
   try {
     const commentsRef = collection(store, `movies/${movieId}/comments`);
@@ -83,12 +119,16 @@ export const postFilmComment = async (
 export const postFilmRating = async (
   movieId: string,
   userId: string,
-  rating: number,
+  rating: number
 ) => {
   const movieRef = doc(store, `movies/${movieId}`);
   const userRatingRef = doc(store, `movies/${movieId}/ratings/${userId}`);
   const movieSnapshot = await getDoc(movieRef);
   const userRatingSnapshot = await getDoc(userRatingRef);
+  const userRatingsRef = doc(
+    store,
+    `user_ratings/${userId}/ratings/${movieId}`
+  );
 
   const batch = writeBatch(store);
 
@@ -126,6 +166,12 @@ export const postFilmRating = async (
     timestamp: serverTimestamp(),
   });
 
+  batch.set(userRatingsRef, {
+    movieId: movieId,
+    rating: rating,
+    ratedAt: serverTimestamp(),
+  });
+
   await batch.commit();
 };
 
@@ -147,7 +193,7 @@ export const postFilmImage = async (file: File): Promise<string> => {
       (error) => reject(error),
       () => {
         getDownloadURL(uploadTask.snapshot.ref).then(resolve).catch(reject);
-      },
+      }
     );
   });
 };
@@ -160,7 +206,7 @@ export const postFilmImage = async (file: File): Promise<string> => {
  * @throws Will throw an error if the creation fails.
  */
 export const postFilmCreate = async (
-  data: MovieCreateSchema,
+  data: MovieCreateSchema
 ): Promise<void> => {
   let imageUrl = "";
 

@@ -1,8 +1,9 @@
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { User } from "firebase/auth";
 import { getUserRating, posteUserCreate } from "../api/userApi";
-import { RegisterSchema, UserInfo } from '../types';
+import { RegisterSchema, UserInfo, MovieWithRating } from '../types';
 import { getUser } from "../api/userApi";
+import { getFilmsByUserRatings } from "../api/filmsApi";
 
 export const useUserRating = (movieId: string, currentUser: User | null) => {
   return useQuery<number, Error>({
@@ -19,6 +20,13 @@ export const useUserProfile = (userId: string | undefined) => {
     queryFn: () => getUser(userId!),
   });
 };
+
+export const useUserRatedFilms = (userId: string | undefined) => {
+  return useQuery<MovieWithRating[], Error>({
+    queryKey: ['userRatedFilms', userId],
+    queryFn: () => getFilmsByUserRatings(userId!),
+  });
+}
 
 export const useUserCreate = () => {
   return useMutation({
