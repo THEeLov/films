@@ -14,7 +14,6 @@ import { movieCreateSchema } from "../validationSchemas/movieForms";
 import { Controller, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import z from "zod";
-import { useState } from "react";
 import DriveFileRenameOutlineIcon from "@mui/icons-material/DriveFileRenameOutline";
 import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
 import DescriptionIcon from "@mui/icons-material/Description";
@@ -22,12 +21,9 @@ import ImageIcon from "@mui/icons-material/Image";
 import { addTextFieldStyle } from "../theme";
 import { addCheckboxStyle } from "../theme";
 import Decorator from "../decorators/Decorator";
-import { doc, setDoc } from "firebase/firestore";
-import { v4 as uuidv4 } from "uuid";
-import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
-import { storage, store } from "../config/firebase";
 import { useNavigate } from "react-router-dom";
-import { Movie } from "../types";
+import { useFilmCreate } from "../hooks/useFilms";
+import useImagePreview from "../hooks/useImagePreview";
 
 type MovieCreateSchema = z.infer<typeof movieCreateSchema>;
 
@@ -43,9 +39,10 @@ export const genres = [
 ];
 
 const FilmAdd = () => {
-  const [loading, setLoading] = useState(false);
-  const [imagePreview, setImagePreview] = useState<string | null>(null);
   const navigate = useNavigate();
+
+  const { mutateAsync: createMovie, isPending } = useFilmCreate();
+  const { imagePreview, handleImageChange } = useImagePreview();
 
   const theme = useTheme();
 
@@ -65,66 +62,12 @@ const FilmAdd = () => {
 
   watch("genre");
 
-  const uploadImage = async (file: File): Promise<string> => {
-    return new Promise((resolve, reject) => {
-      const storageRef = ref(storage, `movie-images/${file.name + uuidv4()}`);
-      const uploadTask = uploadBytesResumable(storageRef, file);
-
-      uploadTask.on(
-        "state_changed",
-        () => {},
-        (error) => reject(error),
-        () => {
-          getDownloadURL(uploadTask.snapshot.ref).then(resolve).catch(reject);
-        },
-      );
-    });
-  };
-
   const onSubmit = async (data: MovieCreateSchema) => {
-    setLoading(true);
     try {
-      let imageUrl = "";
-
-      if (data.image && data.image.length > 0) {
-        const file = data.image[0];
-        imageUrl = await uploadImage(file);
-      }
-
-      const movieId = uuidv4();
-
-      const movie: Omit<Movie, "id"> = {
-        title: data.title,
-        description: data.description,
-        name: data.title,
-        imageUrl: imageUrl,
-        sumOfRatings: 0,
-        totalRatings: 0,
-        averageRating: 0,
-        releaseDate: data.releaseDate,
-        genre: data.genre,
-      };
-
-      await setDoc(doc(store, "movies", movieId), movie);
-      alert("Movie added successfully!");
+      await createMovie(data);
       navigate("/");
-    } catch (error) {
-      alert("Something went wrong we are sorry!");
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setImagePreview(reader.result as string);
-      };
-      reader.readAsDataURL(file);
-    } else {
-      setImagePreview(null);
+    } catch {
+      alert("Something went wrong, we are sorry!");
     }
   };
 
@@ -297,14 +240,14 @@ const FilmAdd = () => {
         <Button
           type="submit"
           variant="contained"
-          disabled={loading}
+          disabled={isPending}
           onClick={handleSubmit(onSubmit)}
           sx={{
             backgroundColor: theme.palette.secondary.main,
             color: theme.palette.primary.main,
           }}
         >
-          {loading ? <CircularProgress color="secondary" /> : "Submit"}
+          {isPending ? <CircularProgress color="secondary" /> : "Submit"}
         </Button>
 
         <Decorator />

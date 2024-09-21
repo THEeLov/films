@@ -5,10 +5,14 @@ import {
   getDoc,
   getDocs,
   serverTimestamp,
+  setDoc,
   writeBatch,
 } from "firebase/firestore";
 import { Movie } from "../types";
-import { store } from "../config/firebase";
+import { storage, store } from "../config/firebase";
+import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
+import { v4 as uuidv4 } from "uuid";
+import { MovieCreateSchema } from "../types";
 
 /**
  * Fetch a specific movie by its ID from Firestore.
@@ -71,7 +75,7 @@ export const postFilmComment = async (
 
 /**
  * Submit or update a user's rating for a specific movie.
- * 
+ *
  * @param {string} movieId - The ID of the movie.
  * @param {string} userId - The ID of the user submitting the rating.
  * @param {number} rating - The rating value (e.g., 1-5 stars).
@@ -123,4 +127,61 @@ export const postFilmRating = async (
   });
 
   await batch.commit();
+};
+
+/**
+ * Upload an image file to Firebase Storage and return the download URL.
+ *
+ * @param {File} file - The image file to upload.
+ * @returns {Promise<string>} The download URL of the uploaded image.
+ * @throws Will throw an error if the upload fails.
+ */
+export const postFilmImage = async (file: File): Promise<string> => {
+  return new Promise((resolve, reject) => {
+    const storageRef = ref(storage, `movie-images/${file.name + uuidv4()}`);
+    const uploadTask = uploadBytesResumable(storageRef, file);
+
+    uploadTask.on(
+      "state_changed",
+      () => {},
+      (error) => reject(error),
+      () => {
+        getDownloadURL(uploadTask.snapshot.ref).then(resolve).catch(reject);
+      }
+    );
+  });
+};
+
+/**
+ * Create a new movie entry in Firestore after uploading the image.
+ *
+ * @param {MovieCreateSchema} data - The data to create a new movie.
+ * @returns {Promise<void>} Resolves when the movie is successfully created.
+ * @throws Will throw an error if the creation fails.
+ */
+export const postFilmCreate = async (
+  data: MovieCreateSchema
+): Promise<void> => {
+  let imageUrl = "";
+
+  if (data.image && data.image.length > 0) {
+    const file = data.image[0];
+    imageUrl = await postFilmImage(file);
+  }
+
+  const movieId = uuidv4();
+
+  const movie: Omit<Movie, "id"> = {
+    title: data.title,
+    description: data.description,
+    name: data.title,
+    imageUrl: imageUrl,
+    sumOfRatings: 0,
+    totalRatings: 0,
+    averageRating: 0,
+    releaseDate: data.releaseDate,
+    genre: data.genre,
+  };
+
+  await setDoc(doc(store, "movies", movieId), movie);
 };

@@ -1,4 +1,6 @@
 import { Timestamp } from "firebase/firestore";
+import z from "zod"
+import { movieCreateSchema } from "./validationSchemas/movieForms";
 
 export type Movie = {
   id: string;
@@ -18,3 +20,6 @@ export type Comment = {
   comment: string;
   date: Timestamp;
 };
+
+export type MovieCreateSchema = z.infer<typeof movieCreateSchema>;
+ 

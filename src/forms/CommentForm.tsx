@@ -22,11 +22,11 @@ const CommentForm = ({ movieId }: { movieId: string }) => {
     resolver: zodResolver(commentSchema),
   });
 
-  const { mutate: addComment } = useFilmAddComment(movieId);
+  const { mutateAsync: addComment } = useFilmAddComment(movieId);
 
   const onSubmit = async (data: CommentSchema) => {
     try {
-      addComment(data.comment);
+      await addComment(data.comment);
       reset();
     }
     catch (error) {

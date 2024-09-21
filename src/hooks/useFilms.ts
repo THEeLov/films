@@ -1,9 +1,15 @@
 import { Movie, Comment } from "../types";
 import { useMutation, useQuery } from "@tanstack/react-query";
-import { getFilms, getFilm, postFilmComment } from "../api/filmsApi";
+import {
+  getFilms,
+  getFilm,
+  postFilmComment,
+  postFilmCreate,
+} from "../api/filmsApi";
 import { useEffect, useState } from "react";
 import { collection, onSnapshot, orderBy, query } from "firebase/firestore";
 import { store } from "../config/firebase";
+import { MovieCreateSchema } from "../types";
 
 export const useFilm = (movieId: string | undefined) => {
   return useQuery<Movie, Error>({
@@ -25,7 +31,7 @@ export const useFilmAddComment = (movieId: string) => {
   return useMutation({
     mutationFn: (commentText: string) => postFilmComment(movieId, commentText),
   });
-}
+};
 
 // Geting real-time data so i used different approach then Tanstack Query
 export const useFilmComments = (movieId: string) => {
@@ -56,4 +62,10 @@ export const useFilmComments = (movieId: string) => {
   }, [movieId]);
 
   return { comments, loading, error };
+};
+
+export const useFilmCreate = () => {
+  return useMutation({
+    mutationFn: (data: MovieCreateSchema) => postFilmCreate(data),
+  });
 };
