@@ -5,6 +5,7 @@ import Login from "../pages/Login";
 import Register from "../pages/Register";
 import FilmAdd from "../pages/FilmAdd";
 import FilmView from "../pages/FilmView";
+import UserProfile from "../pages/UserProfile";
 
 export const router = createBrowserRouter([
   {
@@ -23,6 +24,10 @@ export const router = createBrowserRouter([
         path: "/film/:id",
         Component: FilmView,
       },
+      {
+        path: "/user/:id",
+        Component: UserProfile
+      }
     ],
   },
   {

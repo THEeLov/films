@@ -13,14 +13,12 @@ import {
 import { registerSchema } from "../validationSchemas/authForms";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import z from "zod";
 import { Link, useNavigate } from "react-router-dom";
-import { AuthErrorCodes, createUserWithEmailAndPassword } from "firebase/auth";
-import { auth } from "../config/firebase";
+import { AuthErrorCodes } from "firebase/auth";
 import Decorator from "../decorators/Decorator";
 import { FirebaseError } from "firebase/app";
-
-type RegisterSchema = z.infer<typeof registerSchema>;
+import { useUserCreate } from "../hooks/useUser";
+import { RegisterSchema } from "../types";
 
 const Register = () => {
   const {
@@ -35,9 +33,11 @@ const Register = () => {
   const theme = useTheme();
   const navigate = useNavigate();
 
+  const { mutateAsync: createUser } = useUserCreate();
+
   const onSubmit = async (data: RegisterSchema) => {
     try {
-      await createUserWithEmailAndPassword(auth, data.email, data.password);
+      await createUser(data);
       navigate("/");
     } catch (err) {
       if (!(err instanceof FirebaseError)) {

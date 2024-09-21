@@ -1,6 +1,8 @@
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { User } from "firebase/auth";
-import { getUserRating } from "../api/userApi";
+import { getUserRating, posteUserCreate } from "../api/userApi";
+import { RegisterSchema, UserInfo } from '../types';
+import { getUser } from "../api/userApi";
 
 export const useUserRating = (movieId: string, currentUser: User | null) => {
   return useQuery<number, Error>({
@@ -10,3 +12,18 @@ export const useUserRating = (movieId: string, currentUser: User | null) => {
     staleTime: 5 * 60 * 1000, // 5 minutes cache time
   });
 };
+
+export const useUserProfile = (userId: string | undefined) => {
+  return useQuery<UserInfo | null, Error>({
+    queryKey: ['userProfile', userId],
+    queryFn: () => getUser(userId!),
+    enabled: !!userId
+  });
+};
+
+export const useUserCreate = () => {
+  return useMutation({
+    mutationFn: (userData: RegisterSchema) => posteUserCreate(userData),
+  });
+};
+
