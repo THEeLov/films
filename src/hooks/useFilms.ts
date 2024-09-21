@@ -1,6 +1,6 @@
 import { Movie, Comment } from "../types";
-import { useQuery } from "@tanstack/react-query";
-import { getFilms, getFilm } from "../api/filmsApi";
+import { useMutation, useQuery } from "@tanstack/react-query";
+import { getFilms, getFilm, postFilmComment } from "../api/filmsApi";
 import { useEffect, useState } from "react";
 import { collection, onSnapshot, orderBy, query } from "firebase/firestore";
 import { store } from "../config/firebase";
@@ -20,6 +20,12 @@ export const useFilms = () => {
     queryFn: getFilms,
   });
 };
+
+export const useFilmAddComment = (movieId: string) => {
+  return useMutation({
+    mutationFn: (commentText: string) => postFilmComment(movieId, commentText),
+  });
+}
 
 // Geting real-time data so i used different approach then Tanstack Query
 export const useFilmComments = (movieId: string) => {

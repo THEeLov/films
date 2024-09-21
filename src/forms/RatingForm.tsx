@@ -5,7 +5,7 @@ import { ratingSchema } from "../validationSchemas/movieForms";
 import { z } from "zod";
 import { useAuth } from "../contexts/AuthProvider";
 import { useUserRating } from "../hooks/useUser";
-import { submitRating } from "../services/ratingService";
+import { postFilmRating } from "../api/filmsApi";
 
 type RatingSchema = z.infer<typeof ratingSchema>;
 
@@ -39,7 +39,7 @@ const RatingForm = ({ movieId }: { movieId: string }) => {
     }
 
     try {
-      await submitRating(movieId, currentUser.uid, data.rating);
+      await postFilmRating(movieId, currentUser.uid, data.rating);
     } catch (err) {
       console.error("Error updating movie and user's rating: ", err);
       alert("Failed to update rating. Please try again.");
