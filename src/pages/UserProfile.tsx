@@ -9,7 +9,7 @@ import {
 import PersonIcon from "@mui/icons-material/Person";
 import { useNavigate, useParams } from "react-router-dom";
 import Grid from "@mui/material/Grid2";
-import UserMovieCard from "../components/cards/UserMovieCars";
+import UserMovieCard from "../components/cards/UserMovieCard";
 
 const UserProfile = () => {
   const theme = useTheme();
@@ -24,7 +24,6 @@ const UserProfile = () => {
   const {
     data: usersRatedFilms,
     isLoading: loadingUsersFilms,
-    isError: filmsError,
   } = useUserRatedFilms(id);
 
   if (loadingProfileInfo || loadingUsersFilms) return <LinearProgress />;
@@ -69,22 +68,28 @@ const UserProfile = () => {
         {userProfile?.email}
       </Typography>
 
-      <Typography variant="h4" component="h3" fontWeight="bold" color="#faaf00">
-        Rated movies:
-      </Typography>
-
-      {usersRatedFilms && usersRatedFilms.length === 0 ? (
-        <Typography variant="h6" align="center">
-          You didn't rate any films.
+      <Box display="flex" flexDirection="column" gap="1rem" maxWidth="1024px" width="100%">
+        <Typography
+          variant="h4"
+          component="h3"
+          fontWeight="bold"
+          color="#faaf00"
+          width="100%"
+        >
+          Rated Films
         </Typography>
-      ) : (
-        <Box display="flex" gap="2rem" flexWrap="wrap" maxWidth="1024px">
-          {usersRatedFilms &&
-            usersRatedFilms.map((movie) => (
-                <UserMovieCard movie={movie} />
-            ))}
-        </Box>
-      )}
+        
+        {usersRatedFilms && usersRatedFilms.length === 0 ? (
+          <Typography variant="body2" color="white" fontSize="1rem">
+            No rated films yet.
+          </Typography>
+        ) : (
+          <Box display="flex" gap="2rem" flexWrap="wrap" maxWidth="1024px" justifyContent="center">
+            {usersRatedFilms &&
+              usersRatedFilms.map((movie) => <UserMovieCard movie={movie} />)}
+          </Box>
+        )}
+      </Box>
     </Box>
   );
 };

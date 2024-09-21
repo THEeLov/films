@@ -27,6 +27,11 @@ const Navbar = () => {
     setAnchorEl(null);
   };
 
+  const handleMenuClick = (navigateText: string) => {
+    handleClose();
+    navigate(navigateText);
+  }
+
   const handleSignOut = async () => {
     setIsLoading(true);
     try {
@@ -89,10 +94,10 @@ const Navbar = () => {
               open={Boolean(anchorEl)}
               onClose={handleClose}
             >
-              <MenuItem onClick={() => navigate(`/user/${currentUser.uid}`)}>
+              <MenuItem onClick={() => handleMenuClick(`/user/${currentUser.uid}`)}>
                 Profile
               </MenuItem>
-              <MenuItem onClick={() => navigate(`/film-add`)}>
+              <MenuItem onClick={() => handleMenuClick(`/film-add`)}>
                 Add Film
               </MenuItem>
               <MenuItem onClick={handleSignOut}>Sign Out</MenuItem>

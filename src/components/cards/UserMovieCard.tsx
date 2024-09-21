@@ -7,12 +7,9 @@ import {
   Typography,
 } from "@mui/material";
 import { MovieWithRating } from "../../types";
-import { useTheme } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 
 const UserMovieCard = ({ movie }: { movie: MovieWithRating }) => {
-
-  const theme = useTheme();
   const navigate = useNavigate();
 
   return (
