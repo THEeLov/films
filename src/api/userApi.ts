@@ -1,6 +1,6 @@
 import { doc, getDoc, serverTimestamp, setDoc } from "firebase/firestore";
 import { auth, store } from "../config/firebase";
-import { createUserWithEmailAndPassword, User } from "firebase/auth";
+import { createUserWithEmailAndPassword } from "firebase/auth";
 import { UserInfo, RegisterSchema } from "../types";
 
 /**
@@ -53,8 +53,12 @@ export const getUserRating = async (
  *
  */
 export const posteUserCreate = async (userData: RegisterSchema) => {
-  const userCredential = await createUserWithEmailAndPassword(auth, userData.email, userData.password);
-  
+  const userCredential = await createUserWithEmailAndPassword(
+    auth,
+    userData.email,
+    userData.password
+  );
+
   const user = userCredential.user;
 
   await setDoc(doc(store, "users", user.uid), {

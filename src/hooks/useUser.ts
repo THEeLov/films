@@ -17,7 +17,6 @@ export const useUserProfile = (userId: string | undefined) => {
   return useQuery<UserInfo | null, Error>({
     queryKey: ['userProfile', userId],
     queryFn: () => getUser(userId!),
-    enabled: !!userId
   });
 };
 

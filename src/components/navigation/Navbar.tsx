@@ -89,6 +89,9 @@ const Navbar = () => {
               open={Boolean(anchorEl)}
               onClose={handleClose}
             >
+              <MenuItem onClick={() => navigate(`/user/${currentUser.uid}`)}>
+                Profile
+              </MenuItem>
               <MenuItem onClick={() => navigate(`/film-add`)}>
                 Add Film
               </MenuItem>

@@ -1,10 +1,11 @@
 import { useUserProfile } from '../hooks/useUser'; // Replace with your user profile fetching hook
-import { Avatar, Typography, Box, LinearProgress } from '@mui/material';
+import { Avatar, Typography, Box, LinearProgress, useTheme } from '@mui/material';
 import PersonIcon from '@mui/icons-material/Person';
 import { useNavigate, useParams } from 'react-router-dom';
 
 const UserProfile = () => {
-  
+
+  const theme = useTheme();
   const navigate = useNavigate();
   const { id } = useParams<{ id: string }>();
 
@@ -21,13 +22,14 @@ const UserProfile = () => {
         display: 'flex', 
         flexDirection: 'column', 
         alignItems: 'center', 
-        padding: 2 
+        padding: 2, 
+        backgroundColor: theme.palette.primary.main
       }}
     >
       <Avatar 
         sx={{ 
-          width: 100, 
-          height: 100, 
+          width: 200, 
+          height: 200, 
           bgcolor: 'grey.300' 
         }} 
         alt={userProfile?.displayName || 'User'}
@@ -44,6 +46,10 @@ const UserProfile = () => {
       </Typography>
       <Typography variant="body1" color="text.secondary">
         {userProfile?.email}
+      </Typography>
+
+      <Typography variant="h4" component="h3" fontWeight="bold">
+        Rated movies:
       </Typography>
     </Box>
   );
