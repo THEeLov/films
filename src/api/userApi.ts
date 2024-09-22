@@ -1,10 +1,9 @@
 import { doc, getDoc, serverTimestamp, setDoc, updateDoc } from "firebase/firestore";
 import { auth, storage, store } from "../config/firebase";
-import { createUserWithEmailAndPassword, getAuth, updateProfile } from "firebase/auth";
+import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { UserInfo, RegisterSchema, UserEditSchema } from "../types";
 import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
 import { v4 as uuidv4 } from "uuid";
-import { useAuth } from "../contexts/AuthProvider";
 
 /**
  * Fetches the user profile from Firestore based on the provided user ID.

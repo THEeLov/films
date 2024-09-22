@@ -33,7 +33,7 @@ const ProfileEditForm = ({
   const {
     register,
     handleSubmit,
-    formState: { isSubmitting },
+    formState: {},
   } = useForm<UserEditSchema>({
     resolver: zodResolver(userEditSchema),
   });
