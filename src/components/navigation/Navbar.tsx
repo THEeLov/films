@@ -82,7 +82,7 @@ const Navbar = () => {
                   src={currentUser.photoURL}
                   alt="User Profile Picture"
                   sx={{ width: 42, height: 42
-                   }} // Adjust size to match your design
+                   }}
                 />
               ) : (
                 <AccountCircle />
