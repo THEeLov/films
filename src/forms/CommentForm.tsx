@@ -12,11 +12,13 @@ import z from "zod";
 import CommentIcon from "@mui/icons-material/Comment";
 import { addTextFieldCommentStyle } from "../theme";
 import { useFilmAddComment } from "../hooks/useFilms";
+import { useAuth } from "../contexts/AuthProvider";
 
 type CommentSchema = z.infer<typeof commentSchema>;
 
 const CommentForm = ({ movieId }: { movieId: string }) => {
   const theme = useTheme();
+  const { currentUser } = useAuth();
 
   const { register, handleSubmit, reset } = useForm<CommentSchema>({
     resolver: zodResolver(commentSchema),
@@ -25,8 +27,17 @@ const CommentForm = ({ movieId }: { movieId: string }) => {
   const { mutateAsync: addComment } = useFilmAddComment(movieId);
 
   const onSubmit = async (data: CommentSchema) => {
+    if (!currentUser) {
+      alert("Please sign in to add a comment.");
+      return;
+    }
     try {
-      await addComment(data.comment);
+      const updateData = {
+        comment: data.comment,
+        userDisplayName: currentUser.displayName!,
+        userProfilePicUrl: currentUser.photoURL!,
+      };
+      await addComment(updateData);
       reset();
     } catch (error) {
       console.error("Error adding comment:", error);

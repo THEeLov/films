@@ -8,7 +8,7 @@ import {
   setDoc,
   writeBatch,
 } from "firebase/firestore";
-import { Movie, Rating, MovieWithRating } from "../types";
+import { Movie, Rating, MovieWithRating, UserAddComment } from "../types";
 import { storage, store } from "../config/firebase";
 import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
 import { v4 as uuidv4 } from "uuid";
@@ -96,12 +96,14 @@ export const getFilmsByUserRatings = async (userId: string): Promise<MovieWithRa
  */
 export const postFilmComment = async (
   movieId: string,
-  comment: string
+  comment: UserAddComment
 ): Promise<void> => {
   try {
     const commentsRef = collection(store, `movies/${movieId}/comments`);
     await addDoc(commentsRef, {
       comment: comment,
+      userDisplayName: comment.userDisplayName,
+      userProfilePicUrl: comment.userProfilePicUrl,
       date: serverTimestamp(),
     });
   } catch (error) {

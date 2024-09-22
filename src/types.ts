@@ -22,8 +22,16 @@ export type MovieWithRating = Movie & Rating;
 export type Comment = {
   id: string;
   comment: string;
+  userDisplayName: string;
+  userProfilePicUrl: string;
   date: Timestamp;
 };
+
+export type UserAddComment = {
+  comment: string;
+  userDisplayName: string;
+  userProfilePicUrl: string;
+}
 
 export type UserInfo = {
   userId: string;

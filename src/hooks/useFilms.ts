@@ -1,4 +1,4 @@
-import { Movie, Comment } from "../types";
+import { Movie, Comment, UserAddComment } from "../types";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import {
   getFilms,
@@ -29,7 +29,8 @@ export const useFilms = () => {
 
 export const useFilmAddComment = (movieId: string) => {
   return useMutation({
-    mutationFn: (commentText: string) => postFilmComment(movieId, commentText),
+    mutationFn: (commentText: UserAddComment) =>
+      postFilmComment(movieId, commentText),
   });
 };
 
