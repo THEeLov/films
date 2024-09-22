@@ -1,7 +1,7 @@
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { User } from "firebase/auth";
-import { getUserRating, posteUserCreate } from "../api/userApi";
-import { RegisterSchema, UserInfo, MovieWithRating } from '../types';
+import { getUserRating, posteUserCreate, postUserEdit } from "../api/userApi";
+import { RegisterSchema, UserInfo, MovieWithRating, UserEditSchema } from '../types';
 import { getUser } from "../api/userApi";
 import { getFilmsByUserRatings } from "../api/filmsApi";
 
@@ -33,4 +33,10 @@ export const useUserCreate = () => {
     mutationFn: (userData: RegisterSchema) => posteUserCreate(userData),
   });
 };
+
+export const useUserEdit = () => {
+  return useMutation({
+    mutationFn: (userData: UserEditSchema) => postUserEdit(userData),
+  });
+}
 

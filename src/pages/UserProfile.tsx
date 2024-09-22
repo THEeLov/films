@@ -14,11 +14,14 @@ import SecondaryText from "../components/SecondaryText";
 import { convertDateToString } from "../utils/convertDateToString";
 import EditIcon from "@mui/icons-material/Edit";
 import { useAuth } from "../contexts/AuthProvider";
+import { useFormOpen } from "../hooks/useFormOpen";
+import ProfileEditForm from "../forms/ProfileEditForm";
 
 const UserProfile = () => {
   const theme = useTheme();
   const navigate = useNavigate();
   const { currentUser } = useAuth();
+  const { isOpen, handleOpen, handleClose } = useFormOpen();
   const { id } = useParams<{ id: string }>();
 
   const {
@@ -97,6 +100,7 @@ const UserProfile = () => {
                   color: theme.palette.primary.main,
                   marginTop: 2,
                 }}
+                onClick={handleOpen}  
               >
                 Edit Profile
                 <EditIcon sx={{ marginLeft: "0.5rem" }} />
@@ -134,6 +138,8 @@ const UserProfile = () => {
           )}
         </Box>
       </Box>
+
+      {isOpen && <ProfileEditForm handleClose={handleClose} open={isOpen}/>}
     </Box>
   );
 };

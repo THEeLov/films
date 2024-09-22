@@ -1,7 +1,10 @@
-import { doc, getDoc, serverTimestamp, setDoc } from "firebase/firestore";
-import { auth, store } from "../config/firebase";
-import { createUserWithEmailAndPassword } from "firebase/auth";
-import { UserInfo, RegisterSchema } from "../types";
+import { doc, getDoc, serverTimestamp, setDoc, updateDoc } from "firebase/firestore";
+import { auth, storage, store } from "../config/firebase";
+import { createUserWithEmailAndPassword, getAuth, updateProfile } from "firebase/auth";
+import { UserInfo, RegisterSchema, UserEditSchema } from "../types";
+import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
+import { v4 as uuidv4 } from "uuid";
+import { useAuth } from "../contexts/AuthProvider";
 
 /**
  * Fetches the user profile from Firestore based on the provided user ID.
@@ -71,4 +74,70 @@ export const posteUserCreate = async (userData: RegisterSchema) => {
   });
 
   return user;
+};
+
+/**
+ * Upload a profile picture to Firebase Storage and return the download URL.
+ *
+ * @param {File} file - The profile picture file to upload.
+ * @returns {Promise<string>} The download URL of the uploaded profile picture.
+ * @throws Will throw an error if the upload fails.
+ */
+export const uploadProfilePicture = async (file: File): Promise<string> => {
+  return new Promise((resolve, reject) => {
+    const storageRef = ref(
+      storage,
+      `profile-pictures/${file.name + "-" + uuidv4()}`
+    );
+
+    const uploadTask = uploadBytesResumable(storageRef, file);
+
+    uploadTask.on(
+      "state_changed",
+      (snapshot) => {
+        const progress =
+          (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+        console.log(`Upload is ${progress}% done`);
+      },
+      (error) => {
+        reject(error);
+      },
+      () => {
+        getDownloadURL(uploadTask.snapshot.ref)
+          .then((downloadURL) => resolve(downloadURL))
+          .catch((error) => reject(error));
+      }
+    );
+  });
+};
+
+/**
+ * API to update user's profile including displayName and profilePic.
+ *
+ * @param {UserEditSchema} userData - The data containing displayName and profilePic.
+ * @returns {Promise<void>} Void or error.
+ */
+export const postUserEdit = async (userData: UserEditSchema): Promise<void> => {
+  const currentUser = auth.currentUser;
+
+  if (!currentUser) {
+    throw new Error("User is not logged in");
+  }
+
+  let profilePicUrl = "";
+  if (userData.profilePic && userData.profilePic.length > 0) {
+    const file = userData.profilePic[0];
+    profilePicUrl = await uploadProfilePicture(file);
+  }
+
+  await updateProfile(currentUser, {
+    displayName: userData.displayName,
+    photoURL: profilePicUrl,
+  });
+
+  const userDocRef = doc(store, "users", currentUser.uid);
+  await updateDoc(userDocRef, {
+    displayName: userData.displayName,
+    profilePicUrl: profilePicUrl,
+  });
 };

@@ -2,6 +2,7 @@ import { Timestamp } from "firebase/firestore";
 import z from "zod";
 import { movieCreateSchema } from "./validationSchemas/movieForms";
 import { registerSchema } from "./validationSchemas/authForms";
+import { userEditSchema } from "./validationSchemas/userForms";
 
 export type Movie = {
   id: string;
@@ -41,4 +42,5 @@ export type Rating = {
 
 export type MovieCreateSchema = z.infer<typeof movieCreateSchema>;
 export type RegisterSchema = z.infer<typeof registerSchema>;
+export type UserEditSchema = z.infer<typeof userEditSchema>;
 
