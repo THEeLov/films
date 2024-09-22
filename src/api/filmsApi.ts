@@ -101,9 +101,8 @@ export const postFilmComment = async (
   try {
     const commentsRef = collection(store, `movies/${movieId}/comments`);
     await addDoc(commentsRef, {
-      comment: comment,
-      userDisplayName: comment.userDisplayName,
-      userProfilePicUrl: comment.userProfilePicUrl,
+      comment: comment.comment,
+      userId: comment.userId,
       date: serverTimestamp(),
     });
   } catch (error) {

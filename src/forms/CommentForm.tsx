@@ -34,8 +34,7 @@ const CommentForm = ({ movieId }: { movieId: string }) => {
     try {
       const updateData = {
         comment: data.comment,
-        userDisplayName: currentUser.displayName!,
-        userProfilePicUrl: currentUser.photoURL!,
+        userId: currentUser.uid,
       };
       await addComment(updateData);
       reset();

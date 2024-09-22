@@ -24,8 +24,7 @@ const Comments = ({ movieId }: { movieId: string }) => {
         comments.map((comment) => (
           <CommentCard
             key={comment.id}
-            text={comment.comment}
-            date={comment.date}
+            commentInfo={comment}
           />
         ))
       )}

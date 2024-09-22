@@ -22,15 +22,13 @@ export type MovieWithRating = Movie & Rating;
 export type Comment = {
   id: string;
   comment: string;
-  userDisplayName: string;
-  userProfilePicUrl: string;
+  userId: string;
   date: Timestamp;
 };
 
 export type UserAddComment = {
   comment: string;
-  userDisplayName: string;
-  userProfilePicUrl: string;
+  userId: string;
 }
 
 export type UserInfo = {
