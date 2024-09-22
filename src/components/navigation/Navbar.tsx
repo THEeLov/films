@@ -95,12 +95,12 @@ const Navbar = () => {
               onClose={handleClose}
             >
               <MenuItem onClick={() => handleMenuClick(`/user/${currentUser.uid}`)}>
-                Profile
+                PROFILE
               </MenuItem>
               <MenuItem onClick={() => handleMenuClick(`/film-add`)}>
-                Add Film
+                ADD FILM
               </MenuItem>
-              <MenuItem onClick={handleSignOut}>Sign Out</MenuItem>
+              <MenuItem onClick={handleSignOut}>SIGN OUT</MenuItem>
             </Menu>
           </>
         ) : (
