@@ -1,4 +1,4 @@
-import { AppBar, IconButton, Menu, MenuItem } from "@mui/material";
+import { AppBar, Avatar, IconButton, Menu, MenuItem } from "@mui/material";
 import Toolbar from "@mui/material/Toolbar";
 import TheatersIcon from "@mui/icons-material/Theaters";
 import Typography from "@mui/material/Typography";
@@ -30,7 +30,7 @@ const Navbar = () => {
   const handleMenuClick = (navigateText: string) => {
     handleClose();
     navigate(navigateText);
-  }
+  };
 
   const handleSignOut = async () => {
     setIsLoading(true);
@@ -77,7 +77,15 @@ const Navbar = () => {
               onClick={handleMenu}
               color="inherit"
             >
-              <AccountCircle />
+              {currentUser?.photoURL ? (
+                <Avatar
+                  src={currentUser.photoURL}
+                  alt="User Profile Picture"
+                  sx={{ width: 32, height: 32 }} // Adjust size to match your design
+                />
+              ) : (
+                <AccountCircle />
+              )}
             </IconButton>
             <Menu
               id="menu-appbar"
@@ -94,7 +102,9 @@ const Navbar = () => {
               open={Boolean(anchorEl)}
               onClose={handleClose}
             >
-              <MenuItem onClick={() => handleMenuClick(`/user/${currentUser.uid}`)}>
+              <MenuItem
+                onClick={() => handleMenuClick(`/user/${currentUser.uid}`)}
+              >
                 PROFILE
               </MenuItem>
               <MenuItem onClick={() => handleMenuClick(`/film-add`)}>
