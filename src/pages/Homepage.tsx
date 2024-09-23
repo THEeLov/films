@@ -1,4 +1,4 @@
-import { Box, useTheme, Divider, LinearProgress } from "@mui/material";
+import { Box, useTheme, Divider, Skeleton, LinearProgress } from "@mui/material";
 import MovieCard from "../components/cards/MovieCard";
 import { useFilms } from "../hooks/useFilms";
 
@@ -14,7 +14,14 @@ const Homepage = () => {
       }}
     >
       {isLoading ? (
-        <LinearProgress color="secondary" />
+        <Box>
+          <LinearProgress />
+          {Array.from(new Array(20)).map((_, index) => (
+            <Box key={index}>
+              <Skeleton variant="rectangular" height={100} animation="wave"/>
+            </Box>
+          ))}
+        </Box>
       ) : (
         movieList &&
         movieList.map((movie) => (
