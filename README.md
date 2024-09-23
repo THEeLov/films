@@ -13,6 +13,11 @@ Check out the live version of the project here: [Film Database](https://films-ae
 - **Rate Films:** Users can rate any film, with average ratings calculated from all users' input.
 - **Comment System:** Engage in discussions by leaving comments on films.
 - **View Ratings:** Display average ratings for each film, reflecting all users' opinions.
+- **User Profiles:** 
+  - Users can view their own profile and others' profiles.
+  - Profile includes films rated by the user and their ratings.
+  - Users can edit their profile picture and username.
+  - Comments on films display the profile picture and username of the commenter.
 
 ## 🧑‍💻 Technologies Used
 
