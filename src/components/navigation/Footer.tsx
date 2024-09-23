@@ -8,11 +8,9 @@ import {
 } from "@mui/material";
 import LinkedInIcon from "@mui/icons-material/LinkedIn";
 import { GitHub } from "@mui/icons-material";
-import { useNavigate } from "react-router-dom";
 
 const Footer = () => {
   const theme = useTheme();
-  const navigate = useNavigate();
 
   return (
     <Box

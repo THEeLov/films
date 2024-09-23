@@ -4,7 +4,6 @@ import { Comment } from "../../types";
 import PersonIcon from '@mui/icons-material/Person';
 import { useUserProfile } from "../../hooks/useUser";
 import { Link } from "react-router-dom";
-import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 
 const CommentCard = ({ commentInfo }: { commentInfo: Comment }) => {
   const { data: userInfo, isLoading } = useUserProfile(commentInfo.userId);
