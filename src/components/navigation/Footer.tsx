@@ -6,13 +6,13 @@ import {
   IconButton,
   useTheme,
 } from "@mui/material";
-import FacebookIcon from "@mui/icons-material/Facebook";
-import TwitterIcon from "@mui/icons-material/Twitter";
-import InstagramIcon from "@mui/icons-material/Instagram";
 import LinkedInIcon from "@mui/icons-material/LinkedIn";
+import { GitHub } from "@mui/icons-material";
+import { useNavigate } from "react-router-dom";
 
 const Footer = () => {
   const theme = useTheme();
+  const navigate = useNavigate();
 
   return (
     <Box
@@ -60,17 +60,11 @@ const Footer = () => {
           marginY: "1rem",
         }}
       >
-        <IconButton color="inherit" aria-label="facebook">
-          <FacebookIcon />
-        </IconButton>
-        <IconButton color="inherit" aria-label="twitter">
-          <TwitterIcon />
-        </IconButton>
-        <IconButton color="inherit" aria-label="instagram">
-          <InstagramIcon />
-        </IconButton>
-        <IconButton color="inherit" aria-label="linkedin">
+        <IconButton color="inherit" aria-label="facebook" component="a" href="https://www.linkedin.com/in/filip-kozik-81b695303/">
           <LinkedInIcon />
+        </IconButton>
+        <IconButton color="inherit" aria-label="twitter" component="a" href="https://github.com/THEeLov">
+          <GitHub  />
         </IconButton>
       </Box>
 

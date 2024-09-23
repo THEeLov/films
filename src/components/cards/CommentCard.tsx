@@ -1,9 +1,10 @@
 import { Box, CardContent, Typography, Avatar, Skeleton } from "@mui/material";
 import { format } from "date-fns";
 import { Comment } from "../../types";
-import PersonIcon from "@mui/icons-material/Person";
+import PersonIcon from '@mui/icons-material/Person';
 import { useUserProfile } from "../../hooks/useUser";
 import { Link } from "react-router-dom";
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 
 const CommentCard = ({ commentInfo }: { commentInfo: Comment }) => {
   const { data: userInfo, isLoading } = useUserProfile(commentInfo.userId);
@@ -34,9 +35,11 @@ const CommentCard = ({ commentInfo }: { commentInfo: Comment }) => {
           />
           <Avatar
             sx={{
-              bgcolor: "#ff6464",
-              color: "#fff",
-              display: isLoading ? "none" : "block",
+              bgcolor: "grey.300",
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center"
+
             }}
             src={avatarSrc}
             alt={displayName}

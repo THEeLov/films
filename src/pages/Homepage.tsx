@@ -25,10 +25,10 @@ const Homepage = () => {
       ) : (
         movieList &&
         movieList.map((movie) => (
-          <div key={movie.id}>
+          <Box key={movie.id}>
             <MovieCard movie={movie} />
             <Divider />
-          </div>
+          </Box>
         ))
       )}
     </Box>
