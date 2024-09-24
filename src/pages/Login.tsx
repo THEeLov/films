@@ -52,7 +52,7 @@ const Login = () => {
         backgroundColor: theme.palette.primary.main,
         display: "flex",
         justifyContent: "center",
-        height: "100vh",
+        minHeight: "100vh",
         alignItems: "center",
         position: "relative",
         overflowX: "hidden",
