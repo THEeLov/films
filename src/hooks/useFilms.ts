@@ -20,10 +20,10 @@ export const useFilm = (movieId: string | undefined) => {
   });
 };
 
-export const useFilms = () => {
+export const useFilms = (searchParam: string) => {
   return useQuery<Movie[], Error>({
     queryKey: ["movies"],
-    queryFn: getFilms,
+    queryFn: () => getFilms(searchParam),
   });
 };
 

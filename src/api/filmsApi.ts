@@ -35,18 +35,25 @@ export const getFilm = async (movieId: string): Promise<Movie> => {
 };
 
 /**
- * Fetch all movies from Firestore.
+ * Fetch and filter movies from Firestore by a search term (case-insensitive).
  *
- * @returns {Promise<Movie[]>} A promise that resolves to an array of movie objects containing movie details.
- *
+ * @param {string} searchTerm - The term entered by the user to search for films.
+ * @returns {Promise<Movie[]>} A promise that resolves to an array of filtered movie objects.
  */
-export const getFilms = async (): Promise<Movie[]> => {
+export const getFilms = async (searchParam: string): Promise<Movie[]> => {
   const movieCollectionRef = collection(store, "movies");
   const data = await getDocs(movieCollectionRef);
-  return data.docs.map((doc) => ({
-    ...doc.data(),
-    id: doc.id,
-  })) as Movie[];
+
+  const lowercasedSearchTerm = searchParam.toLowerCase();
+
+  return data.docs
+    .map((doc) => ({
+      ...doc.data(),
+      id: doc.id,
+    }) as Movie)
+    .filter((movie) =>
+      movie.title.toLowerCase().includes(lowercasedSearchTerm)
+    );
 };
 
 export const getUserRatings = async (userId: string): Promise<Rating[]> => {

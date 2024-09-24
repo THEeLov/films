@@ -6,6 +6,7 @@ import {
   Menu,
   MenuItem,
   Paper,
+  useMediaQuery,
 } from "@mui/material";
 import Toolbar from "@mui/material/Toolbar";
 import TheatersIcon from "@mui/icons-material/Theaters";
@@ -21,6 +22,7 @@ import React from "react";
 import { AccountCircle } from "@mui/icons-material";
 import InputBase from "@mui/material/InputBase";
 import SearchIcon from "@mui/icons-material/Search";
+import LoginIcon from '@mui/icons-material/Login';
 
 const Navbar = () => {
   const { currentUser } = useAuth();
@@ -29,6 +31,8 @@ const Navbar = () => {
   const [_, setIsLoading] = useState(false);
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const [searchQuery, setSearchQuery] = useState<string>("");
+
+  const isSmallScreen = useMediaQuery("(max-width:600px)");
 
   const handleMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
@@ -57,8 +61,7 @@ const Navbar = () => {
   const handleSearchSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     if (searchQuery.trim()) {
-      // Navigate to the search results or homepage with query
-      navigate(`/search?query=${encodeURIComponent(searchQuery.trim())}`);
+      navigate(`/?search=${encodeURIComponent(searchQuery.trim())}`);
     }
   };
 
@@ -95,16 +98,19 @@ const Navbar = () => {
               display: "flex",
               alignItems: "center",
               maxWidth: "400px",
-              width: "100%"
+              width: "100%",
+              backgroundColor: 'rgba(255, 255, 255, 0.4)'
             }}
+            onSubmit={handleSearchSubmit}
           >
             <InputBase
               sx={{ ml: 1, flex: 1 }}
               placeholder="Search ..."
               inputProps={{ "aria-label": "search movies" }}
+              onChange={(e) => setSearchQuery(e.target.value)}
             />
             <Divider sx={{ height: 28, m: 0.5 }} orientation="vertical" />
-            <IconButton type="button" sx={{ p: "10px" }} aria-label="search">
+            <IconButton type="submit" sx={{ p: "10px" }} aria-label="search" onClick={() => handleSearchSubmit}>
               <SearchIcon />
             </IconButton>
           </Paper>
@@ -159,9 +165,18 @@ const Navbar = () => {
               </Menu>
             </>
           ) : (
-            <Button variant="outlined" component={Link} to={`/login`}>
-              SIGN IN
-            </Button>
+            <>
+              {/* Conditionally render full button or icon based on screen size */}
+              {isSmallScreen ? (
+                <IconButton component={Link} to={`/login`} color="inherit">
+                  <LoginIcon />
+                </IconButton>
+              ) : (
+                <Button variant="outlined" component={Link} to={`/login`}>
+                  SIGN IN
+                </Button>
+              )}
+            </>
           )}
         </Box>
       </Toolbar>
