@@ -13,11 +13,13 @@ import CommentIcon from "@mui/icons-material/Comment";
 import { addTextFieldCommentStyle } from "../theme";
 import { useFilmAddComment } from "../hooks/useFilms";
 import { useAuth } from "../contexts/AuthProvider";
+import { useNavigate } from "react-router-dom";
 
 type CommentSchema = z.infer<typeof commentSchema>;
 
 const CommentForm = ({ movieId }: { movieId: string }) => {
   const theme = useTheme();
+  const navigate = useNavigate();
   const { currentUser } = useAuth();
 
   const { register, handleSubmit, reset } = useForm<CommentSchema>({
@@ -28,7 +30,7 @@ const CommentForm = ({ movieId }: { movieId: string }) => {
 
   const onSubmit = async (data: CommentSchema) => {
     if (!currentUser) {
-      alert("Please sign in to add a comment.");
+      navigate("/login");
       return;
     }
     try {
