@@ -46,8 +46,8 @@ const FilmView = () => {
               <Grid size={{ lg: 5, sm: 7 }}>
                 <Box
                   sx={{
-                    width: "300px",
-                    height: "350px",
+                    width: "250px",
+                    height: "300px",
                     borderRadius: "8px",
                     overflow: "hidden",
                   }}
