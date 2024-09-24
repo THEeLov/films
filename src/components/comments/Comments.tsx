@@ -1,7 +1,7 @@
-import CommentCard from "./cards/CommentCard";
+import CommentCard from "./CommentCard";
 import { Box } from "@mui/material";
 import CircularProgress from "@mui/material/CircularProgress";
-import { useFilmComments } from "../hooks/useFilms";
+import { useFilmComments } from "../../hooks/useFilms";
 
 const Comments = ({ movieId }: { movieId: string }) => {
   // Hook for getting all the comments for a movie

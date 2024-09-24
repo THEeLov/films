@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { Menu, MenuItem, IconButton, Avatar } from '@mui/material';
 import AccountCircle from '@mui/icons-material/AccountCircle';
-import { auth } from '../config/firebase';
+import { auth } from '../../config/firebase';
 import { signOut } from 'firebase/auth';
-import { useAuth } from '../contexts/AuthProvider';
+import { useAuth } from '../../contexts/AuthProvider';
 import { useNavigate } from 'react-router-dom';
 
 const UserMenu = () => {

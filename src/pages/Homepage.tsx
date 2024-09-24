@@ -5,7 +5,7 @@ import {
   Skeleton,
   LinearProgress,
 } from "@mui/material";
-import MovieCard from "../components/cards/MovieCard";
+import MovieCard from "../components/movies/MovieCard";
 import { useFilms } from "../hooks/useFilms";
 import { useSearchParams } from "react-router-dom";
 import { useEffect } from "react";

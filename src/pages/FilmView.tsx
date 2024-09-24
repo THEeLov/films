@@ -1,9 +1,9 @@
 import { useNavigate, useParams } from "react-router-dom";
 import { CircularProgress, Box, useTheme, Typography } from "@mui/material";
 import Grid from "@mui/material/Grid2";
-import SecondaryText from "../components/SecondaryText";
+import SecondaryText from "../components/common/SecondaryText";
 import CommentForm from "../forms/CommentForm";
-import Comments from "../components/Comments";
+import Comments from "../components/comments/Comments";
 import RatingForm from "../forms/RatingForm";
 import { useFilm } from "../hooks/useFilms";
 

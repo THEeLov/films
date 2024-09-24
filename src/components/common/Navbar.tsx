@@ -11,8 +11,8 @@ import Box from "@mui/material/Box";
 import { Link } from "react-router-dom";
 import { useAuth } from "../../contexts/AuthProvider";
 import LoginIcon from '@mui/icons-material/Login';
-import UserMenu from "../UserMenu";
-import SearchBar from "../SearchBar";
+import UserMenu from "../user/UserMenu";
+import SearchBar from "./SearchBar";
 
 const Navbar = () => {
   const { currentUser } = useAuth();

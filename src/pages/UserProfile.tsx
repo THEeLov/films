@@ -9,8 +9,8 @@ import {
 } from "@mui/material";
 import PersonIcon from "@mui/icons-material/Person";
 import { useNavigate, useParams } from "react-router-dom";
-import UserMovieCard from "../components/cards/UserMovieCard";
-import SecondaryText from "../components/SecondaryText";
+import UserMovieCard from "../components/movies/UserMovieCard";
+import SecondaryText from "../components/common/SecondaryText";
 import { convertDateToString } from "../utils/convertDateToString";
 import EditIcon from "@mui/icons-material/Edit";
 import { useAuth } from "../contexts/AuthProvider";
