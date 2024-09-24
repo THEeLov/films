@@ -41,22 +41,31 @@ const FilmView = () => {
       {movie && (
         <>
           <Box component="div" sx={{ flexGrow: 1, marginTop: "4rem" }}>
-            <Grid container>
+            <Grid container spacing={2}>
               {/* Movie Image Section */}
-              <Grid size={{ lg: 6, sm: 6 }}>
+              <Grid size={{ lg: 5, sm: 7 }}>
                 <Box
-                  component="img"
-                  src={movie.imageUrl}
                   sx={{
-                    width: "200px",
-                    height: "250px",
+                    width: "300px",
+                    height: "350px",
                     borderRadius: "8px",
+                    overflow: "hidden",
                   }}
-                />
+                >
+                  <Box
+                    component="img"
+                    src={movie.imageUrl}
+                    sx={{
+                      width: "100%",
+                      height: "100%",
+                      objectFit: "cover",
+                    }}
+                  />
+                </Box>
               </Grid>
 
               {/* Movie Info Section */}
-              <Grid size={{ lg: 6, sm: 6 }}>
+              <Grid size={{ lg: 7, sm: 5 }}>
                 <Box display="flex" flexDirection="column" flexGrow={1}>
                   <Typography
                     component="h3"
