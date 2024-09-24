@@ -1,11 +1,6 @@
 import {
   AppBar,
-  Avatar,
-  Divider,
   IconButton,
-  Menu,
-  MenuItem,
-  Paper,
   useMediaQuery,
 } from "@mui/material";
 import Toolbar from "@mui/material/Toolbar";
@@ -13,57 +8,15 @@ import TheatersIcon from "@mui/icons-material/Theaters";
 import Typography from "@mui/material/Typography";
 import { Button } from "@mui/material";
 import Box from "@mui/material/Box";
-import { Link, useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { Link } from "react-router-dom";
 import { useAuth } from "../../contexts/AuthProvider";
-import { auth } from "../../config/firebase";
-import { signOut } from "firebase/auth";
-import React from "react";
-import { AccountCircle } from "@mui/icons-material";
-import InputBase from "@mui/material/InputBase";
-import SearchIcon from "@mui/icons-material/Search";
 import LoginIcon from '@mui/icons-material/Login';
+import UserMenu from "../UserMenu";
+import SearchBar from "../SearchBar";
 
 const Navbar = () => {
   const { currentUser } = useAuth();
-  const navigate = useNavigate();
-
-  const [_, setIsLoading] = useState(false);
-  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
-  const [searchQuery, setSearchQuery] = useState<string>("");
-
   const isSmallScreen = useMediaQuery("(max-width:600px)");
-
-  const handleMenu = (event: React.MouseEvent<HTMLElement>) => {
-    setAnchorEl(event.currentTarget);
-  };
-
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
-
-  const handleMenuClick = (navigateText: string) => {
-    handleClose();
-    navigate(navigateText);
-  };
-
-  const handleSignOut = async () => {
-    setIsLoading(true);
-    try {
-      await signOut(auth);
-    } catch (error) {
-      console.error("Failed to sign out:", error);
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
-  const handleSearchSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    if (searchQuery.trim()) {
-      navigate(`/?search=${encodeURIComponent(searchQuery.trim())}`);
-    }
-  };
 
   return (
     <AppBar position="sticky" color="secondary">
@@ -91,79 +44,13 @@ const Navbar = () => {
 
         {/* Centered Search Bar */}
         <Box sx={{ flexGrow: 1, display: "flex", justifyContent: "center" }}>
-          <Paper
-            component="form"
-            sx={{
-              p: "2px 4px",
-              display: "flex",
-              alignItems: "center",
-              maxWidth: "400px",
-              width: "100%",
-              backgroundColor: 'rgba(255, 255, 255, 0.4)'
-            }}
-            onSubmit={handleSearchSubmit}
-          >
-            <InputBase
-              sx={{ ml: 1, flex: 1 }}
-              placeholder="Search ..."
-              inputProps={{ "aria-label": "search movies" }}
-              onChange={(e) => setSearchQuery(e.target.value)}
-            />
-            <Divider sx={{ height: 28, m: 0.5 }} orientation="vertical" />
-            <IconButton type="submit" sx={{ p: "10px" }} aria-label="search" onClick={() => handleSearchSubmit}>
-              <SearchIcon />
-            </IconButton>
-          </Paper>
+          <SearchBar />
         </Box>
 
         {/* ACCOUNT */}
         <Box sx={{ display: "flex", alignItems: "center" }}>
           {currentUser ? (
-            <>
-              <IconButton
-                size="small"
-                aria-label="account of current user"
-                aria-controls="menu-appbar"
-                aria-haspopup="true"
-                onClick={handleMenu}
-                color="inherit"
-              >
-                {currentUser?.photoURL ? (
-                  <Avatar
-                    src={currentUser.photoURL}
-                    alt="User Profile Picture"
-                    sx={{ width: 42, height: 42 }}
-                  />
-                ) : (
-                  <AccountCircle />
-                )}
-              </IconButton>
-              <Menu
-                id="menu-appbar"
-                anchorEl={anchorEl}
-                anchorOrigin={{
-                  vertical: "top",
-                  horizontal: "right",
-                }}
-                keepMounted
-                transformOrigin={{
-                  vertical: "top",
-                  horizontal: "right",
-                }}
-                open={Boolean(anchorEl)}
-                onClose={handleClose}
-              >
-                <MenuItem
-                  onClick={() => handleMenuClick(`/user/${currentUser.uid}`)}
-                >
-                  PROFILE
-                </MenuItem>
-                <MenuItem onClick={() => handleMenuClick(`/film-add`)}>
-                  ADD FILM
-                </MenuItem>
-                <MenuItem onClick={handleSignOut}>SIGN OUT</MenuItem>
-              </Menu>
-            </>
+            <UserMenu />
           ) : (
             <>
               {/* Conditionally render full button or icon based on screen size */}

@@ -58,9 +58,8 @@ const UserProfile = () => {
           <Box display="flex" gap="2rem" flexWrap="wrap">
             <Avatar
               sx={{
-                width: 200,
-                height: 200,
-                bgcolor: "grey.300",
+                width: 250,
+                height: 250,
               }}
               alt={userProfile?.displayName || "User"}
             >
@@ -68,10 +67,15 @@ const UserProfile = () => {
                 <img
                   src={userProfile.profilePicUrl}
                   alt="Profile"
-                  style={{ width: "100%", height: "100%", borderRadius: "50%" }}
+                  style={{
+                    width: "100%",
+                    height: "100%",
+                    objectFit: "cover",
+                    objectPosition: "center",
+                  }}
                 />
               ) : (
-                <PersonIcon style={{ fontSize: 50 }} />
+                <PersonIcon style={{ fontSize: 200 }} />
               )}
             </Avatar>
 
@@ -100,7 +104,7 @@ const UserProfile = () => {
                   color: theme.palette.primary.main,
                   marginTop: 2,
                 }}
-                onClick={handleOpen}  
+                onClick={handleOpen}
               >
                 Edit Profile
                 <EditIcon sx={{ marginLeft: "0.5rem" }} />
@@ -139,7 +143,7 @@ const UserProfile = () => {
         </Box>
       </Box>
 
-      {isOpen && <ProfileEditForm handleClose={handleClose} open={isOpen}/>}
+      {isOpen && <ProfileEditForm handleClose={handleClose} open={isOpen} />}
     </Box>
   );
 };

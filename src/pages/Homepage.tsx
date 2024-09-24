@@ -29,6 +29,7 @@ const Homepage = () => {
       component="main"
       sx={{
         backgroundColor: theme.palette.primary.main,
+        minHeight: "90vh"
       }}
     >
       {isLoading ? (
