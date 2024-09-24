@@ -4,6 +4,7 @@ import {
   Divider,
   Skeleton,
   LinearProgress,
+  Typography,
 } from "@mui/material";
 import MovieCard from "../components/movies/MovieCard";
 import { useFilms } from "../hooks/useFilms";
@@ -19,7 +20,7 @@ const Homepage = () => {
 
   useEffect(() => {
     if (searchParam) {
-      console.log("workingsearch")
+      console.log("workingsearch");
       refetch();
     }
   }, [searchParam, refetch]); 
@@ -42,13 +43,22 @@ const Homepage = () => {
           ))}
         </Box>
       ) : (
-        movieList &&
-        movieList.map((movie) => (
-          <Box key={movie.id}>
-            <MovieCard movie={movie} />
-            <Divider />
-          </Box>
-        ))
+        <>
+          {movieList && movieList.length === 0 ? (
+            <Box sx={{ padding: 2, textAlign: "center" }}>
+              <Typography variant="body2" fontSize="1.5rem" color="white">
+                No movies were found with name "{searchParam}"
+              </Typography>
+            </Box>
+          ) : (
+            movieList && movieList.map((movie) => (
+              <Box key={movie.id}>
+                <MovieCard movie={movie} />
+                <Divider />
+              </Box>
+            ))
+          )}
+        </>
       )}
     </Box>
   );
