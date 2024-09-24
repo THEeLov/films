@@ -60,7 +60,7 @@ const UserMenu = () => {
         onClose={handleClose}
       >
         <MenuItem onClick={() => { handleClose(); navigate(`/user/${currentUser!.uid}`) }}>PROFILE</MenuItem>
-        <MenuItem onClick={() => { handleClose(); navigate("/film-add ")}}>ADD FILM</MenuItem>
+        <MenuItem onClick={() => { handleClose(); navigate("/film-add")}}>ADD FILM</MenuItem>
         <MenuItem onClick={handleSignOut}>SIGN OUT</MenuItem>
       </Menu>
     </>
